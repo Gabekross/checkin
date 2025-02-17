@@ -28,7 +28,6 @@ import SelfCheckIn from './pages/SelfCheckIn';
 import RegisterAttendee from './pages/RegisterAttendee';
 import CreateEvent from './pages/CreateEvent';
 import TestQRPage from './pages/TestQRPage';
-import './styles/global.scss';
 
 function App() {
   return (
