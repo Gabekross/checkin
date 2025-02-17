@@ -27,6 +27,7 @@ import AdminCheckIn from './pages/AdminCheckIn';
 import SelfCheckIn from './pages/SelfCheckIn';
 import RegisterAttendee from './pages/RegisterAttendee';
 import CreateEvent from './pages/CreateEvent';
+import TestQRPage from './pages/TestQRPage';
 import './styles/global.scss';
 
 function App() {
@@ -38,6 +39,7 @@ function App() {
           <li><Link to="/create-event">Create Event</Link></li>
           <li><Link to="/register-attendee">Pre-Register Attendees</Link></li>
           <li><Link to="/admin-check-in">Admin Check-In</Link></li>
+          <li><Link to="/test-qr">Test QR Signing</Link></li>
         </ul>
       </nav>
       
@@ -47,6 +49,7 @@ function App() {
         <Route path="/register-attendee" element={<RegisterAttendee />} />
         <Route path="/admin-check-in" element={<AdminCheckIn />} />
         <Route path="/self-check-in/:eventId" element={<SelfCheckIn />} />
+        <Route path="/test-qr" element={<TestQRPage />} />
       </Routes>
     </div>
   );
