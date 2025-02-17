@@ -12,6 +12,8 @@
     "@types/node": "^16.18.126",
     "@types/react": "^19.0.9",
     "@types/react-dom": "^19.0.3",
+    "html5-qrcode": "^2.3.8",
+    "qrcode.react": "^4.2.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.1.5",

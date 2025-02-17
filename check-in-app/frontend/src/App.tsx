@@ -1,24 +1,21 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import SelfCheckIn from './pages/SelfCheckIn';
+import TestQRPage from './pages/TestQRPage';
+import './styles/global.scss';
 
 function App() {
+  useEffect(() => {
+    console.log("✅ App.tsx is rendering and routes are being loaded...");
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Routes>
+        <Route path="/" element={<h1>Event Check-In System</h1>} />
+        <Route path="/self-check-in/:eventId" element={<SelfCheckIn />} />
+        <Route path="/test-qr" element={<TestQRPage />} />
+      </Routes>
     </div>
   );
 }
