@@ -150,7 +150,7 @@ const SelfCheckIn: React.FC = () => {
     } else {
       setCheckedIn(true);
       setFilteredAttendee(prev => prev ? { ...prev, checked_in: true } : null);
-      alert('Check-in successful!');
+      //alert('Check-in successful!P');
     }
   };
 
