@@ -49,7 +49,7 @@ function App() {
         <Route path="/create-event" element={<CreateEvent />} />
         <Route path="/register-attendee" element={<RegisterAttendee />} />
         <Route path="/admin-check-in" element={<AdminCheckIn />} />
-        <Route path="/self-check-in/:eventId" element={<SelfCheckIn />} />
+        <Route path="/self-check-in" element={<SelfCheckIn />} />
         <Route path="/test-qr" element={<TestQRPage />} />
       </Routes>
     </div>
