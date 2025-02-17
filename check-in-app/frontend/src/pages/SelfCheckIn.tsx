@@ -1,5 +1,3 @@
-import './styles/global.scss';
-
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../supabase';
 import { useNavigate, useParams } from 'react-router-dom';
