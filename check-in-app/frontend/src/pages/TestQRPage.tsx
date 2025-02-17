@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import QRCodeGenerator from '../components/QRCodeGenerator';
 
 const TestQRPage: React.FC = () => {
-  const testEventId = "24b6001d-cbdf-4a3a-97a4-59964bf36c88"; // Replace with a real event ID from Supabase
+  const testEventId = "0f416d7e-d345-40c9-8c39-b0edd6fc799b"; // Replace with a real event ID from Supabase
 
   useEffect(() => {
     console.log("TestQRPage is rendering...");
