@@ -71,12 +71,12 @@ const SelfCheckIn: React.FC = () => {
     } else {
       setCheckedIn(true);
       setFilteredAttendee(prev => prev ? { ...prev, checked_in: true } : null);
-      //alert('Check-in successful!');
+      alert('Check-in successful!');
     }
   };
 
   return (
-    <div className={`${styles.selfCheckIn} ${checkedIn ? styles.checkedIn : ''}`}>
+    <div className={`${styles.selfCheckIn} ${checkedIn ? styles.checkedIn : ''}`} style={checkedIn ? { backgroundColor: 'green', color: 'white' } : {}}>
       {event && (
         <div className={styles.eventInfo}>
           <h2>{event.name}</h2>
@@ -128,7 +128,7 @@ const SelfCheckIn: React.FC = () => {
           )}
         </>
       ) : (
-        <div className={styles.confirmation}>
+        <div className={`${styles.confirmation} ${styles.checkedIn}`}>
           <h2>Checked In</h2>
         </div>
       )}
