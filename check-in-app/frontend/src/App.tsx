@@ -39,6 +39,7 @@ function App() {
           <li><Link to="/create-event">Create Event</Link></li>
           <li><Link to="/register-attendee">Pre-Register Attendees</Link></li>
           <li><Link to="/admin-check-in">Admin Check-In</Link></li>
+          <li><Link to="/SelfCheckIn">Self Check-In</Link></li>
           <li><Link to="/test-qr">Test QR Signing</Link></li>
         </ul>
       </nav>
