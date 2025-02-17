@@ -13,6 +13,7 @@
     "@types/react": "^19.0.9",
     "@types/react-dom": "^19.0.3",
     "html5-qrcode": "^2.3.8",
+    "papaparse": "^5.5.2",
     "qrcode.react": "^4.2.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
@@ -45,5 +46,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/papaparse": "^5.3.15"
   }
 }

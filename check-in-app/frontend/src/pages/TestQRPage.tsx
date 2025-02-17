@@ -10,6 +10,7 @@ const TestQRPage: React.FC = () => {
   return (
     <div>
       <h2>Test QR Code</h2>
+      <p>TestQRPage is loaded</p>
       <QRCodeGenerator eventId={testEventId} />
     </div>
   );
