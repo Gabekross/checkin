@@ -14,6 +14,7 @@ const SelfCheckIn: React.FC = () => {
   const [newAttendee, setNewAttendee] = useState<{ name: string; email: string }>({ name: '', email: '' });
   const [checkedIn, setCheckedIn] = useState<boolean>(false);
   const [showWarning, setShowWarning] = useState<boolean>(false);
+  const [showPopup, setShowPopup] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -33,7 +34,9 @@ const SelfCheckIn: React.FC = () => {
         }
       }    // Show alert when showWarning becomes true
       if (showWarning) {
-        alert("Name not found. Please register below.");
+        setShowPopup(true);
+        setTimeout(() => setShowPopup(false), 3000);
+        
       }
       
     };
@@ -104,10 +107,9 @@ const SelfCheckIn: React.FC = () => {
             <button onClick={handleSearch} className={styles.button}>Search</button>
           </div>
 
-          {showWarning && (
-            <div className={styles.warningMessage}>
+          {showPopup && (
+            <div className={styles.customAlert}>
               <p>Name not found. Please register below.</p>
-              
             </div>
           )}
 

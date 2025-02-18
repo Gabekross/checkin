@@ -72,3 +72,19 @@
     font-weight: bold;
     margin-top: 15px;
   }
+
+  .customAlert {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: yellow;  /* Yellow background */
+    color: black;               /* Text color */
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-weight: bold;
+    text-align: center;
+    z-index: 1000;
+    width: 300px;
+  }
