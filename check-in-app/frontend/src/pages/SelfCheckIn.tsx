@@ -13,6 +13,7 @@ const SelfCheckIn: React.FC = () => {
   const [filteredAttendee, setFilteredAttendee] = useState<{ id: string; name: string; email: string; checked_in: boolean } | null>(null);
   const [newAttendee, setNewAttendee] = useState<{ name: string; email: string }>({ name: '', email: '' });
   const [checkedIn, setCheckedIn] = useState<boolean>(false);
+  const [showWarning, setShowWarning] = useState<boolean>(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -38,6 +39,7 @@ const SelfCheckIn: React.FC = () => {
   const handleSearch = () => {
     const attendee = attendees.find(a => a.name.toLowerCase() === searchQuery.toLowerCase());
     setFilteredAttendee(attendee || null);
+    setShowWarning(!attendee);
   };
 
   const handleRegister = async () => {
@@ -97,6 +99,12 @@ const SelfCheckIn: React.FC = () => {
             />
             <button onClick={handleSearch} className={styles.button}>Search</button>
           </div>
+
+          {showWarning && (
+            <div className={styles.warningMessage}>
+              <p>Attendee not found. Please register below.</p>
+            </div>
+          )}
 
           {filteredAttendee && (
             <div className={styles.attendeeFound}>
