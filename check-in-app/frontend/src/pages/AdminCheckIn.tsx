@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../supabase';
 import { useNavigate } from 'react-router-dom';
+import styles from '../styles/AdminCheckIn.module.scss';
 
 const AdminCheckIn: React.FC = () => {
   const [events, setEvents] = useState<{ id: string; name: string }[]>([]);
@@ -53,9 +54,9 @@ const AdminCheckIn: React.FC = () => {
   };
 
   return (
-    <div>
-      <h2>Admin Check-In Panel</h2>
-      <div>
+    <div className={styles.adminCheckInContainer}>
+      <h2 className={styles.title}>Admin Check-In Panel</h2>
+      <div className={styles.selectSection}>
         <label>Select Event:</label>
         <select value={selectedEventId} onChange={(e) => setSelectedEventId(e.target.value)}>
           <option value="">-- Select an Event --</option>
@@ -64,32 +65,33 @@ const AdminCheckIn: React.FC = () => {
           ))}
         </select>
       </div>
-      <div>
+      <div className={styles.searchSection}>
         <input
           type="text"
           placeholder="Search Attendee by Name"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
+          className={styles.input}
         />
-        <button onClick={handleSearch}>Search</button>
+        <button onClick={handleSearch} className={styles.button}>Search</button>
       </div>
 
       {filteredAttendee && (
-        <div>
+        <div className={styles.attendeeFound}>
           <h3>Attendee Found</h3>
           <p>{filteredAttendee.name} - {filteredAttendee.checked_in ? '✔ Checked In' : '❌ Not Checked In'}</p>
-          {!filteredAttendee.checked_in && <button onClick={() => checkInAttendee(filteredAttendee.id)}>Check In</button>}
+          {!filteredAttendee.checked_in && <button onClick={() => checkInAttendee(filteredAttendee.id)} className={styles.button}>Check In</button>}
         </div>
       )}
 
-      <h3>Attendee List</h3>
-      <ul>
+      <h3 className={styles.listTitle}>Attendee List</h3>
+      <ul className={styles.attendeeList}>
         {attendees.map((attendee) => (
-          <li key={attendee.id}>{attendee.name} - {attendee.checked_in ? '✔ Checked In' : '❌ Not Checked In'}</li>
+          <li key={attendee.id} className={styles.attendeeItem}>{attendee.name} - {attendee.checked_in ? '✔ Checked In' : '❌ Not Checked In'}</li>
         ))}
       </ul>
 
-      <button onClick={() => navigate('/register-attendee')}>Go to Pre-Register Attendees</button>
+      <button onClick={() => navigate('/register-attendee')} className={styles.navigateButton}>Go to Pre-Register Attendees</button>
     </div>
   );
 };

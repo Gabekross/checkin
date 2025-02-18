@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { supabase } from '../supabase';
 import { useNavigate } from 'react-router-dom';
 import QRCodeGenerator from '../components/QRCodeGenerator';
+import styles from '../styles/TestQRPage.module.scss';
 
 const TestQRPage: React.FC = () => {
   const [eventId, setEventId] = useState<string | null>(null);
@@ -20,17 +21,21 @@ const TestQRPage: React.FC = () => {
   }, []);
 
   return (
-    <div>
-      <h2>Generate QR Code for an Event</h2>
-      <label>Select Event:</label>
-      <select value={eventId || ''} onChange={(e) => setEventId(e.target.value)}>
+    <div className={styles.testQRContainer}>
+      <h2 className={styles.title}>Generate QR Code for an Event</h2>
+      <label className={styles.label}>Select Event:</label>
+      <select 
+        value={eventId || ''} 
+        onChange={(e) => setEventId(e.target.value)}
+        className={styles.select}
+      >
         <option value="">-- Select an Event --</option>
         {events.map((event) => (
           <option key={event.id} value={event.id}>{event.name}</option>
         ))}
       </select>
-
-      {eventId && <QRCodeGenerator eventId={eventId} />}
+      
+      {eventId && <div className={styles.qrCodeContainer}><QRCodeGenerator eventId={eventId} /></div>}
     </div>
   );
 };

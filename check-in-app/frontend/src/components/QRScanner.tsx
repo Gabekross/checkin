@@ -12,7 +12,7 @@ const QRScanner: React.FC<{ onScanSuccess: (decodedText: string) => void }> = ({
       "qr-reader",
       { fps: 10, qrbox: { width: 250, height: 250 } },
       false // Adding the verbose parameter
-    );
+    );QRScanner
 
     scanner.render(
       (decodedText) => {
