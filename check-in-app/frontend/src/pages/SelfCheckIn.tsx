@@ -14,7 +14,6 @@ const SelfCheckIn: React.FC = () => {
   const [newAttendee, setNewAttendee] = useState<{ name: string; email: string }>({ name: '', email: '' });
   const [checkedIn, setCheckedIn] = useState<boolean>(false);
   const [showWarning, setShowWarning] = useState<boolean>(false);
-  const [showPopup, setShowPopup] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -32,16 +31,11 @@ const SelfCheckIn: React.FC = () => {
         } catch (error) {
           console.error("Error fetching event:", error);
         }
-      }    // Show alert when showWarning becomes true
-      if (showWarning) {
-        setShowPopup(true);
-        // setTimeout(() => setShowPopup(false), 3000);
-        
-      }
+      }    
       
     };
     loadEvent();
-  }, [eventId,showWarning]);
+  }, [eventId]);
 
   const handleSearch = () => {
     const attendee = attendees.find(a => a.name.toLowerCase() === searchQuery.toLowerCase());
@@ -107,9 +101,10 @@ const SelfCheckIn: React.FC = () => {
             <button onClick={handleSearch} className={styles.button}>Search</button>
           </div>
 
-          {showPopup && (
-            <div className={styles.customAlert}>
-              <p>Name not found. Please register below.</p>
+         
+          {showWarning && (
+            <div className={styles.warningMessage}>
+              <p>Attendee not found. Please register below.</p>
               <button className={styles.closeButton} onClick={() => setShowWarning(false)}>X</button>
             </div>
           )}
