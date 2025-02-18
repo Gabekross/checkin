@@ -31,10 +31,14 @@ const SelfCheckIn: React.FC = () => {
         } catch (error) {
           console.error("Error fetching event:", error);
         }
+      }    // Show alert when showWarning becomes true
+      if (showWarning) {
+        alert("Name not found. Please register below.");
       }
+      
     };
     loadEvent();
-  }, [eventId]);
+  }, [eventId,showWarning]);
 
   const handleSearch = () => {
     const attendee = attendees.find(a => a.name.toLowerCase() === searchQuery.toLowerCase());
@@ -102,8 +106,8 @@ const SelfCheckIn: React.FC = () => {
 
           {showWarning && (
             <div className={styles.warningMessage}>
+              <p>Name not found. Please register below.</p>
               
-              alert('Name not found. Please register below.');
             </div>
           )}
 
