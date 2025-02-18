@@ -102,8 +102,8 @@ const SelfCheckIn: React.FC = () => {
 
           {showWarning && (
             <div className={styles.warningMessage}>
-              <p>Name not found. Please register below.</p>
-              <button className={styles.closeButton} onClick={() => setShowWarning(false)}>X</button>
+              
+              alert('Name not found. Please register below.');
             </div>
           )}
 
