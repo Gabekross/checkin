@@ -35,7 +35,7 @@ const SelfCheckIn: React.FC = () => {
       }    // Show alert when showWarning becomes true
       if (showWarning) {
         setShowPopup(true);
-        setTimeout(() => setShowPopup(false), 3000);
+        // setTimeout(() => setShowPopup(false), 3000);
         
       }
       
@@ -110,6 +110,7 @@ const SelfCheckIn: React.FC = () => {
           {showPopup && (
             <div className={styles.customAlert}>
               <p>Name not found. Please register below.</p>
+              <button className={styles.closeButton} onClick={() => setShowWarning(false)}>X</button>
             </div>
           )}
 
