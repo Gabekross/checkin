@@ -78,7 +78,7 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(255, 204, 0, 0.3); /* 30% transparency */
+    background-color: rgba(255, 204, 0, 0.7); /* 30% transparency */
     color: #333;
     display: flex;
     justify-content: center;
@@ -91,8 +91,6 @@
   
   .closeButton {
     position: absolute;
-    top: 15px;
-    right: 15px;
     background: red;
     color: white;
     border: none;
