@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { supabase } from '../supabase';
 import { useNavigate } from 'react-router-dom';
+import styles from '../styles/CreateEvent.module.scss';
 
 const CreateEvent: React.FC = () => {
   const [name, setName] = useState('');
@@ -13,17 +14,46 @@ const CreateEvent: React.FC = () => {
     e.preventDefault();
     const { data, error } = await supabase.from('events').insert([{ name, date, location, description }]);
     if (error) return alert(error.message);
+    alert('Event created successfully!');
     navigate('/');
   };
 
   return (
-    <form onSubmit={handleCreateEvent}>
-      <input type="text" placeholder="Event Name" value={name} onChange={e => setName(e.target.value)} required />
-      <input type="datetime-local" value={date} onChange={e => setDate(e.target.value)} required />
-      <input type="text" placeholder="Location" value={location} onChange={e => setLocation(e.target.value)} required />
-      <textarea placeholder="Description" value={description} onChange={e => setDescription(e.target.value)} />
-      <button type="submit">Create Event</button>
-    </form>
+    <div className={styles.createEventContainer}>
+      <h2 className={styles.title}>Create New Event</h2>
+      <form onSubmit={handleCreateEvent} className={styles.eventForm}>
+        <input 
+          type="text" 
+          placeholder="Event Name" 
+          value={name} 
+          onChange={e => setName(e.target.value)} 
+          required 
+          className={styles.input}
+        />
+        <input 
+          type="datetime-local" 
+          value={date} 
+          onChange={e => setDate(e.target.value)} 
+          required 
+          className={styles.input}
+        />
+        <input 
+          type="text" 
+          placeholder="Location" 
+          value={location} 
+          onChange={e => setLocation(e.target.value)} 
+          required 
+          className={styles.input}
+        />
+        <textarea 
+          placeholder="Description" 
+          value={description} 
+          onChange={e => setDescription(e.target.value)} 
+          className={styles.textarea}
+        />
+        <button type="submit" className={styles.submitButton}>Create Event</button>
+      </form>
+    </div>
   );
 };
 
