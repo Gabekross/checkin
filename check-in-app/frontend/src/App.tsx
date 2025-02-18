@@ -6,6 +6,7 @@ import AdminCheckIn from "./pages/AdminCheckIn";
 import CreateEvent from "./pages/CreateEvent";
 import RegisterAttendee from "./pages/RegisterAttendee";
 import TestQRPage from "./pages/TestQRPage";
+import SelfCheckIn from "./pages/SelfCheckIn";
 
 const App: React.FC = () => {
   return (
@@ -17,6 +18,7 @@ const App: React.FC = () => {
         <Route path="/create-event" element={<CreateEvent />} />
         <Route path="/register-attendee" element={<RegisterAttendee />} />
         <Route path="/test-qr" element={<TestQRPage />} />
+        <Route path="/self-check-in/:eventId" element={<SelfCheckIn />} /> 
       </Routes>
     </>
   );
