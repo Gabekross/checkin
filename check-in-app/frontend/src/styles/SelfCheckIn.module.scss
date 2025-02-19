@@ -1,135 +1,143 @@
 .selfCheckIn {
-    max-width: 500px;
-    margin: auto;
-    padding: 20px;
-    background-color: #f8f9fa;
-    border-radius: 8px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    transition: background-color 0.3s ease-in-out;
-  }
-  
-  .checkedIn {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;  // Covers the entire viewport width
-    height: 100vh; // Covers the entire viewport height
-    background-color: green;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    font-weight: bold;
-    text-align: center;
-    z-index: 9999; // Ensures it's above everything else
-  }
-  
-  
-  .title {
-    font-size: 1.0rem;
-    margin-bottom: 10px;
-    color: #333;
-  }
-  
-  .searchSection,
-  .registerSection {
-    margin-top: 20px;
-  }
-  
-  // .input {
-  //   width: 100%;
-  //   padding: 10px;
-  //   margin: 10px 0;
-  //   border: 1px solid #ddd;
-  //   border-radius: 5px;
-  // }
+  max-width: 450px;
+  margin: 50px auto;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
 
-  .input {
-    width: 100%;  // Ensures input fields take up the full width but don’t exceed the container
-    max-width: 400px; // Prevents expansion beyond a reasonable size
-    padding: 12px; 
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    box-sizing: border-box; // Prevents width increase from padding
-    outline: none;
-  
-    &:focus {
-      border-color: #007bff;
-      box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
-    }
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* ✅ Style for event info */
+.eventInfo {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  color: #444;
+}
+
+/* ✅ Styling for input fields */
+.input {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+  outline: none;
+
+  &:focus {
+    border-color: #007bff;
+    box-shadow: 0px 0px 5px rgba(0, 123, 255, 0.3);
   }
-  
-  
-  .button {
-    background-color: #007bff;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background 0.3s ease-in-out;
-  }
-  
-  .button:hover {
+}
+
+/* ✅ Button Styling */
+.button {
+  width: 100%;
+  background-color: #007bff;
+  color: white;
+  padding: 12px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+
+  &:hover {
     background-color: #0056b3;
   }
-  
-  .attendeeFound {
-    background-color: #d4edda;
-    color: #155724;
-    padding: 10px;
-    border-radius: 5px;
-    margin-top: 10px;
+}
+
+/* ✅ Style for search & registration sections */
+.searchSection,
+.registerSection {
+  margin-bottom: 20px;
+}
+
+/* ✅ Attendee found section */
+.attendeeFound {
+  background: #e9f7e1;
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 15px;
+  font-size: 16px;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+/* ✅ Warning Message */
+.warningMessage {
+  background: rgba(255, 193, 7, 0.2);
+  padding: 15px;
+  border-radius: 8px;
+  color: #856404;
+  font-size: 16px;
+  margin-top: 10px;
+  border: 1px solid #ffc107;
+  position: relative;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  font-size: 18px;
+  font-weight: bold;
+  color: #856404;
+  cursor: pointer;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
+/* ✅ Checked-In Success Screen */
+.checkedIn {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: green;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  z-index: 9999;
+}
+
+/* ✅ Responsive Design */
+@media (max-width: 768px) {
+  .selfCheckIn {
+    width: 90%;
+    padding: 15px;
   }
-  
-  .confirmation {
-    background-color: green;
-    color: white;
-    padding: 20px;
-    border-radius: 5px;
-    font-size: 1.5rem;
-    font-weight: bold;
+
+  .title {
+    font-size: 22px;
   }
-  
-  .warningMessage {
-    background-color: #ffcc00;
-    color: #333;
-    padding: 10px;
-    border-radius: 5px;
-    font-weight: bold;
-    margin-top: 15px;
+
+  .input {
+    font-size: 14px;
   }
-  .warningMessage {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 70vw;
-    height: 70vh;
-    background-color: rgba(255, 204, 0, 0.7); /* 30% transparency */
-    color: #333;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.0rem;
-    font-weight: bold;
-    text-align: center;
-    z-index: 1000; /* Ensures it stays on top */
+
+  .button {
+    font-size: 14px;
   }
-  
-  .closeButton {
-    position: absolute;
-    background: red;
-    color: white;
-    border: none;
-    font-size: 1.5rem;
-    padding: 5px 10px;
-    cursor: pointer;
-    border-radius: 5px;
+
+  .checkedIn {
+    font-size: 20px;
   }
-  
-  .closeButton:hover {
-    background: darkred;
-  }
+}

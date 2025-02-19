@@ -12,13 +12,13 @@ const Home: React.FC = () => {
 
   return (
     <div className={styles.homeContainer}>
-      <h1 className={styles.title}>Welcome to Event Check-In System</h1>
+      <h1 className={styles.title}>EasyCheckIn</h1>
       <p className={styles.description}>
         Manage event check-ins seamlessly. Admins can create events, register attendees, and track check-ins in real-time.
       </p>
       
       <div className={styles.buttonContainer}>
-        <Link to="/admin-check-in" className={styles.button}>Admin Check-In</Link>
+        <Link to="/admin-check-in" className={styles.button}>Admin</Link>
       </div>
       
       <h2 className={styles.title}>Upcoming Events</h2>

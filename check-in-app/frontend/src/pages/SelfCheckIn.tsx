@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../supabase';
 import { useNavigate, useParams } from 'react-router-dom';
-import QRScanner from '../components/QRScanner';
+// import QRScanner from '../components/QRScanner';
 import { fetchEventById } from '../api/events';
 import styles from '../styles/SelfCheckIn.module.scss';
 
@@ -94,8 +94,8 @@ const SelfCheckIn: React.FC = () => {
       )}
       {!checkedIn ? (
         <>
-          <h2 className={styles.title}>Scan QR Code or Enter Your Name</h2>
-          <QRScanner onScanSuccess={(scannedEventId) => navigate(`/self-check-in/${scannedEventId}`)} />
+          {/* <h2 className={styles.title}>Scan QR Code or Enter Your Name</h2>
+          <QRScanner onScanSuccess={(scannedEventId) => navigate(`/self-check-in/${scannedEventId}`)} /> */}
           <div className={styles.searchSection}>
             <input
               type="text"
