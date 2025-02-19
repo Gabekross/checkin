@@ -8,12 +8,13 @@ import styles from '../styles/SelfCheckIn.module.scss';
 const SelfCheckIn: React.FC = () => {
   const { eventId } = useParams<{ eventId: string }>();
   const [event, setEvent] = useState<any>(null);
-  const [attendees, setAttendees] = useState<{ id: string; name: string; email: string; checked_in: boolean }[]>([]);
+  const [attendees, setAttendees] = useState<{ id: string; name: string; email: string; status?: string; checked_in: boolean }[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [filteredAttendee, setFilteredAttendee] = useState<{ id: string; name: string; email: string; checked_in: boolean } | null>(null);
-  const [newAttendee, setNewAttendee] = useState<{ name: string; email: string }>({ name: '', email: '' });
+  const [filteredAttendee, setFilteredAttendee] = useState<{ id: string; name: string; email: string; status?: string; checked_in: boolean } | null>(null);
+  const [newAttendee, setNewAttendee] = useState<{ name: string; email: string; status: string }>({ name: '', email: '', status: '' });
   const [checkedIn, setCheckedIn] = useState<boolean>(false);
   const [showWarning, setShowWarning] = useState<boolean>(false);
+  const [selectedStatus, setSelectedStatus] = useState<string>('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -22,7 +23,7 @@ const SelfCheckIn: React.FC = () => {
         try {
           const eventData = await fetchEventById(eventId);
           setEvent(eventData);
-          const { data, error } = await supabase.from('attendees').select('id, name, email, checked_in').eq('event_id', eventId);
+          const { data, error } = await supabase.from('attendees').select('id, name, email, status, checked_in').eq('event_id', eventId);
           if (error) {
             console.error('Error fetching attendees:', error);
           } else {
@@ -31,8 +32,7 @@ const SelfCheckIn: React.FC = () => {
         } catch (error) {
           console.error("Error fetching event:", error);
         }
-      }    
-      
+      }
     };
     loadEvent();
   }, [eventId]);
@@ -44,8 +44,8 @@ const SelfCheckIn: React.FC = () => {
   };
 
   const handleRegister = async () => {
-    if (!newAttendee.name || !newAttendee.email) {
-      alert('Please provide both name and email.');
+    if (!newAttendee.name || !newAttendee.email || !newAttendee.status) {
+      alert('Please provide name, email, and marital status.');
       return;
     }
 
@@ -53,6 +53,7 @@ const SelfCheckIn: React.FC = () => {
       event_id: eventId,
       name: newAttendee.name,
       email: newAttendee.email,
+      status: newAttendee.status,
       checked_in: false
     }).select('*').single();
 
@@ -66,14 +67,19 @@ const SelfCheckIn: React.FC = () => {
     }
   };
 
-  const checkInAttendee = async (attendeeId: string) => {
-    const { error } = await supabase.from('attendees').update({ checked_in: true }).eq('id', attendeeId);
+  const checkInAttendee = async (attendeeId: string, status?: string) => {
+    if (!status) {
+      alert("Please select your marital status before checking in.");
+      return;
+    }
+
+    const { error } = await supabase.from('attendees').update({ checked_in: true, status }).eq('id', attendeeId);
     if (error) {
       console.error('Error checking in attendee:', error);
       alert('Failed to check in attendee.');
     } else {
       setCheckedIn(true);
-      setFilteredAttendee(prev => prev ? { ...prev, checked_in: true } : null);
+      setFilteredAttendee(prev => prev ? { ...prev, checked_in: true, status } : null);
       alert('Check-in successful!');
     }
   };
@@ -101,7 +107,7 @@ const SelfCheckIn: React.FC = () => {
             <button onClick={handleSearch} className={styles.button}>Search</button>
           </div>
 
-         
+          {/* Warning message if attendee not found */}
           {showWarning && (
             <div className={styles.warningMessage}>
               <p>Attendee not found. Please register below.</p>
@@ -109,14 +115,33 @@ const SelfCheckIn: React.FC = () => {
             </div>
           )}
 
+          {/* If attendee is found */}
           {filteredAttendee && (
             <div className={styles.attendeeFound}>
               <h3>Attendee Found</h3>
               <p>{filteredAttendee.name} - {filteredAttendee.checked_in ? '✔ Checked In' : '❌ Not Checked In'}</p>
-              {!filteredAttendee.checked_in && <button onClick={() => checkInAttendee(filteredAttendee.id)} className={styles.button}>Check In</button>}
+
+              {!filteredAttendee.checked_in && (
+                <>
+                  {filteredAttendee.status ? (
+                    <button onClick={() => checkInAttendee(filteredAttendee.id, filteredAttendee.status)} className={styles.button}>Check In</button>
+                  ) : (
+                    <>
+                      <label>Select Marital Status:</label>
+                      <select onChange={(e) => setSelectedStatus(e.target.value)} className={styles.input}>
+                        <option value="">-- Select --</option>
+                        <option value="single">Single</option>
+                        <option value="married">Married</option>
+                      </select>
+                      <button onClick={() => checkInAttendee(filteredAttendee.id, selectedStatus)} className={styles.button}>Submit & Check In</button>
+                    </>
+                  )}
+                </>
+              )}
             </div>
           )}
 
+          {/* Registration form for new attendees */}
           {!filteredAttendee && (
             <div className={styles.registerSection}>
               <h3>Not Registered? Register Here</h3>
@@ -134,6 +159,16 @@ const SelfCheckIn: React.FC = () => {
                 onChange={(e) => setNewAttendee({ ...newAttendee, email: e.target.value })}
                 className={styles.input}
               />
+              <label>Select Marital Status:</label>
+              <select
+                value={newAttendee.status}
+                onChange={(e) => setNewAttendee({ ...newAttendee, status: e.target.value })}
+                className={styles.input}
+              >
+                <option value="">-- Select --</option>
+                <option value="single">Single</option>
+                <option value="married">Married</option>
+              </select>
               <button onClick={handleRegister} className={styles.button}>Register</button>
             </div>
           )}
