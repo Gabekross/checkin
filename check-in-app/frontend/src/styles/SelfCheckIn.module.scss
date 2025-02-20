@@ -3,6 +3,8 @@
   margin: 50px auto;
   padding: 20px;
   background: #ffffff;
+  background: linear-gradient(135deg, #F0F4F8, #D9E2EC); // Warm, inviting colors
+  background: linear-gradient(135deg, #F0F4F8, #f6efcb); // Warm, inviting colors
   border-radius: 10px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
@@ -18,6 +20,7 @@
 /* ✅ Style for event info */
 .eventInfo {
   background: #f8f9fa;
+  background: linear-gradient(135deg, #f8f6f0, #EDE7F6);
   padding: 15px;
   border-radius: 8px;
   margin-bottom: 20px;
@@ -73,18 +76,20 @@
   margin-top: 15px;
   font-size: 16px;
   color: #155724;
-  border: 1px solid #c3e6cb;
+ //border: 1px solid #c3e6cb;
 }
 
 /* ✅ Warning Message */
 .warningMessage {
   background: rgba(255, 193, 7, 0.2);
+  background: rgba(246, 199, 32, 0.5);
   padding: 15px;
   border-radius: 8px;
   color: #856404;
-  font-size: 16px;
+  color: #0d0b04;
+  font-size: 17px;
   margin-top: 10px;
-  border: 1px solid #ffc107;
+ // border: 1px solid #ffc107;
   position: relative;
 }
 

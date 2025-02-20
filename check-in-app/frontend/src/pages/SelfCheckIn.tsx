@@ -110,7 +110,7 @@ const SelfCheckIn: React.FC = () => {
           {/* Warning message if attendee not found */}
           {showWarning && (
             <div className={styles.warningMessage}>
-              <p>Attendee not found. Please register below.</p>
+              <p>Attendee not found.. <br />Please register below.</p>
               <button className={styles.closeButton} onClick={() => setShowWarning(false)}>X</button>
             </div>
           )}
