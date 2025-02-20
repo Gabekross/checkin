@@ -30,25 +30,27 @@ const GuestCheckIn: React.FC = () => {
 
   return (
     <div className={styles.guestContainer}>
-      <h2 className={styles.title}>Guest Check-In</h2>
-      <p>Select an event to check in:</p>
+      <div className={styles.contentBox}>
+        <h2 className={styles.title}>Guest Check-In</h2>
+        <p className={styles.description}>Select an event to check in:</p>
 
-      <select
-        value={selectedEventId}
-        onChange={(e) => setSelectedEventId(e.target.value)}
-        className={styles.select}
-      >
-        <option value="">-- Select an Event --</option>
-        {events.map((event) => (
-          <option key={event.id} value={event.id}>
-            {event.name}
-          </option>
-        ))}
-      </select>
+        <select
+          value={selectedEventId}
+          onChange={(e) => setSelectedEventId(e.target.value)}
+          className={styles.select}
+        >
+          <option value="">-- Select an Event --</option>
+          {events.map((event) => (
+            <option key={event.id} value={event.id}>
+              {event.name}
+            </option>
+          ))}
+        </select>
 
-      <button onClick={handleProceed} className={styles.button}>
-        Proceed to Check-In
-      </button>
+        <button onClick={handleProceed} className={styles.button}>
+          Proceed to Check-In
+        </button>
+      </div>
     </div>
   );
 };
