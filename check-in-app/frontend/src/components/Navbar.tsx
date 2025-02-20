@@ -8,12 +8,22 @@ const Navbar: React.FC = () => {
   const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
 
   useEffect(() => {
+    // ✅ Check if an admin is logged in
     const checkAuthStatus = async () => {
       const { data } = await supabase.auth.getSession();
       setIsAdminAuthenticated(!!data.session);
     };
 
     checkAuthStatus();
+
+    // ✅ Listen for auth state changes (for dynamic navbar updates)
+    const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
+      setIsAdminAuthenticated(!!session);
+    });
+
+    return () => {
+      authListener?.subscription.unsubscribe();
+    };
   }, []);
 
   const handleSignOut = async () => {

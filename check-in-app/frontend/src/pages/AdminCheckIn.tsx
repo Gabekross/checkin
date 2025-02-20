@@ -11,14 +11,15 @@ const AdminCheckIn: React.FC = () => {
   const [filteredAttendee, setFilteredAttendee] = useState<{ id: string; name: string; email: string; status?: string; checked_in: boolean } | null>(null);
   const [newAttendee, setNewAttendee] = useState<{ name: string; email: string; status: string }>({ name: '', email: '', status: '' });
   const [selectedStatus, setSelectedStatus] = useState<string>('');
+  const [showWarning, setShowWarning] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  // ✅ STEP 3: Redirect Admin to Sign-In if Not Authenticated
+  // ✅ Redirect Admin to Sign-In if Not Authenticated
   useEffect(() => {
     const checkAuth = async () => {
       const { data } = await supabase.auth.getSession();
       if (!data.session) {
-        navigate("/admin-sign-in"); // ✅ Redirect to Sign-In Page if NOT logged in
+        navigate("/admin-sign-in");
       }
     };
     checkAuth();
@@ -52,6 +53,7 @@ const AdminCheckIn: React.FC = () => {
   const handleSearch = () => {
     const attendee = attendees.find(a => a.name.toLowerCase() === searchQuery.toLowerCase());
     setFilteredAttendee(attendee || null);
+    setShowWarning(!attendee); // ✅ Show warning if attendee is NOT found
   };
 
   const addWalkInAttendee = async () => {
@@ -72,7 +74,7 @@ const AdminCheckIn: React.FC = () => {
       console.error('Error registering attendee:', error);
       alert('Failed to register attendee.');
     } else {
-      setAttendees([...attendees, data]);
+      setAttendees([...attendees, data]); // ✅ Update attendee list
       alert('Registration successful!');
     }
   };
@@ -100,7 +102,7 @@ const AdminCheckIn: React.FC = () => {
     <div className={styles.adminCheckInContainer}>
       <h2 className={styles.title}>Admin Check-In Panel</h2>
 
-      {/* Event Selection */}
+      {/* ✅ Event Selection */}
       <div className={styles.selectSection}>
         <label>Select Event:</label>
         <select value={selectedEventId} onChange={(e) => setSelectedEventId(e.target.value)}>
@@ -111,7 +113,7 @@ const AdminCheckIn: React.FC = () => {
         </select>
       </div>
 
-      {/* Attendee Search */}
+      {/* ✅ Attendee Search */}
       <div className={styles.searchSection}>
         <input
           type="text"
@@ -123,7 +125,15 @@ const AdminCheckIn: React.FC = () => {
         <button onClick={handleSearch} className={styles.button}>Search</button>
       </div>
 
-      {/* If attendee is found */}
+      {/* ✅ Warning Message when Attendee is NOT found */}
+      {showWarning && (
+        <div className={styles.warningMessage}>
+          <p>Attendee not found. Please register below.</p>
+          <button className={styles.closeButton} onClick={() => setShowWarning(false)}>X</button>
+        </div>
+      )}
+
+      {/* ✅ If attendee is found */}
       {filteredAttendee && (
         <div className={styles.attendeeFound}>
           <h3>Attendee Found</h3>
@@ -149,7 +159,7 @@ const AdminCheckIn: React.FC = () => {
         </div>
       )}
 
-      {/* Walk-in Registration */}
+      {/* ✅ Walk-in Registration */}
       <div className={styles.registerSection}>
         <h3>Walk-in Registration</h3>
         <input
@@ -178,6 +188,16 @@ const AdminCheckIn: React.FC = () => {
         </select>
         <button onClick={addWalkInAttendee} className={styles.button}>Register</button>
       </div>
+
+      {/* ✅ Attendee List for Selected Event */}
+      <h3 className={styles.listTitle}>Attendees</h3>
+      <ul className={styles.attendeeList}>
+        {attendees.map((attendee) => (
+          <li key={attendee.id} className={styles.attendeeItem}>
+            {attendee.name} - {attendee.email} - {attendee.status || "No Status"} - {attendee.checked_in ? '✔ Checked In' : '❌ Not Checked In'}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
