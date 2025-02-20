@@ -2,6 +2,7 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
+import AdminSignIn from "./pages/AdminSignIn";
 import AdminCheckIn from "./pages/AdminCheckIn";
 import CreateEvent from "./pages/CreateEvent";
 import RegisterAttendee from "./pages/RegisterAttendee";
@@ -15,6 +16,7 @@ const App: React.FC = () => {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/admin-sign-in" element={<AdminSignIn />} />
         <Route path="/admin-check-in" element={<AdminCheckIn />} />
         <Route path="/create-event" element={<CreateEvent />} />
         <Route path="/register-attendee" element={<RegisterAttendee />} />

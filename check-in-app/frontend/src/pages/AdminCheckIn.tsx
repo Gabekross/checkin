@@ -13,6 +13,17 @@ const AdminCheckIn: React.FC = () => {
   const [selectedStatus, setSelectedStatus] = useState<string>('');
   const navigate = useNavigate();
 
+  // ✅ STEP 3: Redirect Admin to Sign-In if Not Authenticated
+  useEffect(() => {
+    const checkAuth = async () => {
+      const { data } = await supabase.auth.getSession();
+      if (!data.session) {
+        navigate("/admin-sign-in"); // ✅ Redirect to Sign-In Page if NOT logged in
+      }
+    };
+    checkAuth();
+  }, [navigate]);
+
   useEffect(() => {
     const fetchEvents = async () => {
       const { data, error } = await supabase.from('events').select('id, name');
@@ -167,16 +178,6 @@ const AdminCheckIn: React.FC = () => {
         </select>
         <button onClick={addWalkInAttendee} className={styles.button}>Register</button>
       </div>
-
-      {/* Attendee List */}
-      <h3 className={styles.listTitle}>Attendees</h3>
-      <ul className={styles.attendeeList}>
-        {attendees.map((attendee) => (
-          <li key={attendee.id} className={styles.attendeeItem}>
-            {attendee.name} - {attendee.email} - {attendee.status || "No Status"} - {attendee.checked_in ? '✔ Checked In' : '❌ Not Checked In'}
-          </li>
-        ))}
-      </ul>
     </div>
   );
 };

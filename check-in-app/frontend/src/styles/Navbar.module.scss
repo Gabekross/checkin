@@ -1,37 +1,47 @@
+// Navbar.module.scss
+
 .navbar {
-    width: 100%;
-    background-color: #333;
-    padding: 10px 0;
-    text-align: center;
-  }
-  
-  .navLinks {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-  }
-  
-  .navLinks li {
-    display: inline;
-  }
-  
-  .navLinks a {
-    text-decoration: none;
-    color: white;
-    font-size: 1rem;
-    padding: 10px 15px;
-    border-radius: 5px;
-    transition: background 0.3s ease-in-out;
-  }
-  
-  .navLinks a:hover {
-    background-color: #218838; // Darker green on hover
-  }
-  
-  .hidden {
-    display: none;
-  }
-  
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background-color: #fff;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.navLinks {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.navLinks li {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.navLinks a {
+  text-decoration: none;
+  color: #333;
+}
+
+.navLinks a:hover {
+  color: #007bff;
+}
+
+/* ✅ Sign Out Button (Top Right Corner) */
+.signOutButton {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.signOutButton:hover {
+  background-color: #c82333;
+}

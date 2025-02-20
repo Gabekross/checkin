@@ -1,11 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { supabase } from "../supabase";
 import styles from "../styles/Navbar.module.scss";
 
 const Navbar: React.FC = () => {
   const location = useLocation();
+  const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
 
-  // Check if current page is Home or AdminCheckIn
+  useEffect(() => {
+    const checkAuthStatus = async () => {
+      const { data } = await supabase.auth.getSession();
+      setIsAdminAuthenticated(!!data.session);
+    };
+
+    checkAuthStatus();
+  }, []);
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    setIsAdminAuthenticated(false);
+    window.location.href = "/"; // ✅ Redirect to Home after logout
+  };
+
   const isHomePage = location.pathname === "/";
   const isAdminCheckInPage = location.pathname === "/admin-check-in";
 
@@ -17,8 +33,8 @@ const Navbar: React.FC = () => {
         {/* ✅ Show "Guest" link ONLY on the Home page */}
         {isHomePage && <li><Link to="/guest-check-in">Guest</Link></li>}
 
-        {/* ✅ Show "Admin" link ONLY on the Home page */}
-        {isHomePage && <li><Link to="/admin-check-in">Admin</Link></li>}
+        {/* ✅ Show "Admin Sign In" link ONLY if NOT signed in */}
+        {isHomePage && !isAdminAuthenticated && <li><Link to="/admin-sign-in">Admin</Link></li>}
 
         {/* ✅ Show these links ONLY on the Admin Check-In page */}
         {isAdminCheckInPage && (
@@ -29,6 +45,11 @@ const Navbar: React.FC = () => {
           </>
         )}
       </ul>
+
+      {/* ✅ Sign Out button (Top Right Corner) ONLY when Admin is logged in */}
+      {isAdminAuthenticated && (
+        <button onClick={handleSignOut} className={styles.signOutButton}>Sign Out</button>
+      )}
     </nav>
   );
 };
