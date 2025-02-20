@@ -23,12 +23,6 @@ const AdminSignIn: React.FC = () => {
     }
   };
 
-  // ✅ Handle Sign-Out
-  const handleSignOut = async () => {
-    await supabase.auth.signOut();
-    navigate("/"); // ✅ Redirect to Home after signing out
-  };
-
   return (
     <div className={styles.adminSignInContainer}>
       <div className={styles.signInCard}>
@@ -63,9 +57,6 @@ const AdminSignIn: React.FC = () => {
 
         {/* Error Message */}
         {errorMessage && <p className={styles.errorMessage}>{errorMessage}</p>}
-
-        {/* Sign-Out Button */}
-        <button onClick={handleSignOut} className={`${styles.button} ${styles.signOutButton}`}>Sign Out</button>
       </div>
     </div>
   );
