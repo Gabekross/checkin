@@ -1,106 +1,158 @@
+
+
 .attendeeSearchContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  background: linear-gradient(to bottom, #F0F4F8, #DDE6ED);
-  padding: 2rem;
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 20px;
+  background: linear-gradient(to bottom right, #F0F4F8, #FFFFFF);
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
 
+
+
 .title {
-  font-size: 2rem;
+  font-size: 24px;
   font-weight: bold;
-  color: #2C3E50;
-  margin-bottom: 1.5rem;
+  color: #333;
+  margin-bottom: 20px;
 }
 
-.selectSection,
-.searchSection,
-.registerSection {
-  width: 100%;
-  max-width: 500px;
-  background: white;
-  padding: 1.5rem;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  margin-bottom: 1.5rem;
+.selectSection {
+  margin-bottom: 20px;
 }
 
 .selectSection label {
-  font-size: 1rem;
   font-weight: bold;
-  color: #34495E;
   display: block;
-  margin-bottom: 0.5rem;
+  margin-bottom: 8px;
 }
 
-.selectSection select,
-.searchSection input,
-.registerSection input {
+.selectSection select {
   width: 100%;
-  padding: 0.75rem;
-  font-size: 1rem;
-  border: 1px solid #BDC3C7;
-  border-radius: 5px;
-  outline: none;
-  transition: 0.3s;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
 }
 
-.selectSection select:focus,
-.searchSection input:focus,
-.registerSection input:focus {
-  border-color: #3498DB;
-  box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+.attendeeListContainer {
+  margin: 20px 0;
+  padding: 15px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  text-align: left;
+}
+
+.listTitle {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.attendeeList {
+  list-style: none;
+  padding: 0;
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+.attendeeItem {
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+}
+
+.noAttendees {
+  color: #999;
+  font-style: italic;
+  text-align: center;
+}
+
+.searchSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.searchSection input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
 }
 
 .button {
-  width: 100%;
-  padding: 0.75rem;
-  font-size: 1rem;
-  font-weight: bold;
+  background: #007bff;
   color: white;
-  background: #3498DB;
+  font-size: 16px;
+  padding: 10px;
   border: none;
-  border-radius: 5px;
+  border-radius: 6px;
   cursor: pointer;
-  transition: 0.3s;
-  margin-top: 1rem;
+  width: 100%;
+  transition: background 0.3s;
 }
 
 .button:hover {
-  background: #2980B9;
+  background: #0056b3;
+}
+
+.attendeeFound {
+  background: #e3fcef;
+  //border: 1px solid #28a745;
+  color: #155724;
+  padding: 15px;
+  margin: 15px 0;
+  border-radius: 8px;
+  text-align: center;
 }
 
 .warningMessage {
-  background: rgba(255, 99, 71, 0.9);
-  color: white;
-  padding: 1rem;
-  font-weight: bold;
-  text-align: center;
+  background: #fff3cd;
+  color: #856404;
+  padding: 15px;
+  margin: 15px 0;
+ //border: 1px solid #ffeeba;
   border-radius: 8px;
-  margin-top: 1rem;
+  text-align: center;
 }
 
-.warningMessage p {
-  margin: 0;
+.registerSection {
+  margin-top: 20px;
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .registerSection h3 {
-  font-size: 1.2rem;
-  color: #2C3E50;
-  margin-bottom: 1rem;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.registerSection input,
+.registerSection select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+}
+
+.registerSection select {
+  background: white;
 }
 
 @media (max-width: 768px) {
   .attendeeSearchContainer {
-    padding: 1rem;
-  }
-
-  .selectSection,
-  .searchSection,
-  .registerSection {
     width: 90%;
+    margin: 20px auto;
   }
 }
