@@ -1,0 +1,106 @@
+.attendeeSearchContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: linear-gradient(to bottom, #F0F4F8, #DDE6ED);
+  padding: 2rem;
+  text-align: center;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #2C3E50;
+  margin-bottom: 1.5rem;
+}
+
+.selectSection,
+.searchSection,
+.registerSection {
+  width: 100%;
+  max-width: 500px;
+  background: white;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1.5rem;
+}
+
+.selectSection label {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #34495E;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.selectSection select,
+.searchSection input,
+.registerSection input {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 1px solid #BDC3C7;
+  border-radius: 5px;
+  outline: none;
+  transition: 0.3s;
+}
+
+.selectSection select:focus,
+.searchSection input:focus,
+.registerSection input:focus {
+  border-color: #3498DB;
+  box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+}
+
+.button {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  font-weight: bold;
+  color: white;
+  background: #3498DB;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+  margin-top: 1rem;
+}
+
+.button:hover {
+  background: #2980B9;
+}
+
+.warningMessage {
+  background: rgba(255, 99, 71, 0.9);
+  color: white;
+  padding: 1rem;
+  font-weight: bold;
+  text-align: center;
+  border-radius: 8px;
+  margin-top: 1rem;
+}
+
+.warningMessage p {
+  margin: 0;
+}
+
+.registerSection h3 {
+  font-size: 1.2rem;
+  color: #2C3E50;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+  .attendeeSearchContainer {
+    padding: 1rem;
+  }
+
+  .selectSection,
+  .searchSection,
+  .registerSection {
+    width: 90%;
+  }
+}

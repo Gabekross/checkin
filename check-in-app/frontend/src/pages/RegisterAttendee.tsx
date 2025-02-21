@@ -5,8 +5,8 @@ import Papa from 'papaparse';
 import styles from '../styles/RegisterAttendee.module.scss';
 
 const RegisterAttendee: React.FC = () => {
-  const [attendees, setAttendees] = useState<{ first_name: string; last_name: string; email?: string; status?: string }[]>([]);
-  const [newAttendee, setNewAttendee] = useState({ first_name: '', last_name: '', email: '', status: '' });
+  const [attendees, setAttendees] = useState<{ name: string; email?: string; status?: string }[]>([]);
+  const [newAttendee, setNewAttendee] = useState({ name: '', email: '', status: '' });
   const [csvFile, setCsvFile] = useState<File | null>(null);
   const [events, setEvents] = useState<{ id: string; name: string }[]>([]);
   const [selectedEventId, setSelectedEventId] = useState<string>('');
@@ -29,18 +29,17 @@ const RegisterAttendee: React.FC = () => {
   };
 
   const addAttendeeManually = () => {
-    const firstName = newAttendee.first_name.trim().toUpperCase();
-    const lastName = newAttendee.last_name.trim().toUpperCase();
+    const name = newAttendee.name.trim().toUpperCase(); // ✅ Convert Name to Uppercase
     const email = newAttendee.email.trim();
     const status = newAttendee.status.trim();
 
-    if (!firstName || !lastName || !email || !status) {
-      alert('All fields are required.');
+    if (!name) {
+      alert('Name is required.');
       return;
     }
 
-    setAttendees([...attendees, { first_name: firstName, last_name: lastName, email, status }]);
-    setNewAttendee({ first_name: '', last_name: '', email: '', status: '' });
+    setAttendees([...attendees, { name, email, status }]);
+    setNewAttendee({ name: '', email: '', status: '' });
   };
 
   const handleCsvUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,10 +53,9 @@ const RegisterAttendee: React.FC = () => {
           console.log("Parsed CSV Data:", result.data);
 
           const parsedAttendees = result.data
-            .filter((row: any) => row.first_name && row.last_name) // ✅ First & Last Name are required
+            .filter((row: any) => row.name) // ✅ Name is required
             .map((row: any) => ({
-              first_name: row.first_name.trim().toUpperCase(),
-              last_name: row.last_name.trim().toUpperCase(),
+              name: row.name.trim().toUpperCase(), // ✅ Convert Name to Uppercase
               email: row.email ? row.email.trim() : null, // ✅ Email is optional
               status: row.status ? row.status.trim() : null, // ✅ Status is optional
             }));
@@ -86,8 +84,7 @@ const RegisterAttendee: React.FC = () => {
     const { error } = await supabase.from('attendees').insert(
       attendees.map((attendee) => ({
         event_id: selectedEventId,
-        first_name: attendee.first_name,
-        last_name: attendee.last_name,
+        name: attendee.name,
         email: attendee.email || null, // ✅ Store null if missing
         status: attendee.status || null, // ✅ Store null if missing
         checked_in: false,
@@ -123,18 +120,9 @@ const RegisterAttendee: React.FC = () => {
       <div className={styles.formGroup}>
         <input
           type="text"
-          name="first_name"
-          placeholder="First Name"
-          value={newAttendee.first_name}
-          onChange={handleInputChange}
-          className={styles.input}
-          required
-        />
-        <input
-          type="text"
-          name="last_name"
-          placeholder="Last Name"
-          value={newAttendee.last_name}
+          name="name"
+          placeholder="Full Name"
+          value={newAttendee.name}
           onChange={handleInputChange}
           className={styles.input}
           required
@@ -142,14 +130,13 @@ const RegisterAttendee: React.FC = () => {
         <input
           type="email"
           name="email"
-          placeholder="Email"
+          placeholder="Email (Optional)"
           value={newAttendee.email}
           onChange={handleInputChange}
           className={styles.input}
-          required
         />
         <label>Select Marital Status:</label>
-        <select name="status" value={newAttendee.status} onChange={handleInputChange} className={styles.input} required>
+        <select name="status" value={newAttendee.status} onChange={handleInputChange} className={styles.input}>
           <option value="">-- Select --</option>
           <option value="single">Single</option>
           <option value="married">Married</option>
@@ -168,7 +155,7 @@ const RegisterAttendee: React.FC = () => {
       <ul className={styles.attendeeList}>
         {attendees.map((attendee, index) => (
           <li key={index} className={styles.attendeeItem}>
-            {attendee.first_name} {attendee.last_name} - {attendee.email || "No Email"} - {attendee.status || "No Status"}
+            {attendee.name} - {attendee.email || "No Email"} - {attendee.status || "No Status"}
           </li>
         ))}
       </ul>

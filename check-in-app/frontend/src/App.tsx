@@ -8,6 +8,7 @@ import CreateEvent from "./pages/CreateEvent";
 import RegisterAttendee from "./pages/RegisterAttendee";
 import TestQRPage from "./pages/TestQRPage";
 import GuestCheckIn from "./pages/GuestCheckIn"; // ✅ Import Guest Check-In Page
+import AttendeeSearch from "./pages/AttendeeSearch"; //
 import SelfCheckIn from "./pages/SelfCheckIn";
 
 const App: React.FC = () => {
@@ -18,6 +19,7 @@ const App: React.FC = () => {
         <Route path="/" element={<Home />} />
         <Route path="/admin-sign-in" element={<AdminSignIn />} />
         <Route path="/admin-check-in" element={<AdminCheckIn />} />
+        <Route path="/attendee-search" element={<AttendeeSearch />} /> 
         <Route path="/create-event" element={<CreateEvent />} />
         <Route path="/register-attendee" element={<RegisterAttendee />} />
         <Route path="/test-qr" element={<TestQRPage />} />
