@@ -70,6 +70,11 @@ const AdminCheckIn: React.FC = () => {
           <h3>Search & Register Attendees</h3>
           <p>Find attendees and register new walk-ins.</p>
         </div>
+        <div className={styles.adminNavCard} onClick={() => navigate("/check-in-analytics")}>
+          <h3>View Analytics</h3>
+          <p>Track check-in trends and attendance stats.</p>
+        </div>
+        
       </div>
 
       {/* ✅ Attendee List */}

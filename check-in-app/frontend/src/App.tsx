@@ -10,6 +10,7 @@ import TestQRPage from "./pages/TestQRPage";
 import GuestCheckIn from "./pages/GuestCheckIn"; // ✅ Import Guest Check-In Page
 import AttendeeSearch from "./pages/AttendeeSearch"; //
 import SelfCheckIn from "./pages/SelfCheckIn";
+import CheckInAnalytics from "./pages/CheckInAnalytics";
 
 const App: React.FC = () => {
   return (
@@ -25,6 +26,8 @@ const App: React.FC = () => {
         <Route path="/test-qr" element={<TestQRPage />} />
         <Route path="/guest-check-in" element={<GuestCheckIn />} /> {/* ✅ New Route */}
         <Route path="/self-check-in/:eventId" element={<SelfCheckIn />} /> 
+        <Route path="/check-in-analytics" element={<CheckInAnalytics />} />
+
       </Routes>
     </>
   );
