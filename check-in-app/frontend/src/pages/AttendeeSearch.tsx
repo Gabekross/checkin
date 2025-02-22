@@ -6,9 +6,9 @@ import styles from "../styles/AttendeeSearch.module.scss";
 const AttendeeSearch: React.FC = () => {
   const [events, setEvents] = useState<{ id: string; name: string }[]>([]);
   const [selectedEventId, setSelectedEventId] = useState<string>("");
-  const [attendees, setAttendees] = useState<{ id: string; name: string; email?: string; status?: string; checked_in: boolean }[]>([]);
+  const [attendees, setAttendees] = useState<{ id: string; name: string; email?: string; status?: string; checked_in: boolean ;check_in_time?: string}[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [filteredAttendee, setFilteredAttendee] = useState<{ id: string; name: string; email?: string; status?: string; checked_in: boolean } | null>(null);
+  const [filteredAttendee, setFilteredAttendee] = useState<{ id: string; name: string; email?: string; status?: string; checked_in: boolean; check_in_time?: string; } | null>(null);
   const [newAttendee, setNewAttendee] = useState<{ name: string; email: string; status: string }>({ name: "", email: "", status: "" });
   const [showWarning, setShowWarning] = useState<boolean>(false);
   const [selectedStatus, setSelectedStatus] = useState<string>("");
@@ -35,7 +35,7 @@ const AttendeeSearch: React.FC = () => {
       if (!selectedEventId) return;
       const { data, error } = await supabase
         .from("attendees")
-        .select("id, name, email, status, checked_in")
+        .select("id, name, email, status, checked_in, check_in_time")
         .eq("event_id", selectedEventId)
         .order("name", { ascending: true });
 
@@ -152,59 +152,63 @@ const AttendeeSearch: React.FC = () => {
   //     alert("An unexpected error occurred. Please try again.");
   //   }
   // };
-  const checkInAttendee = async (attendeeId: string) => {
-    let statusToUpdate = selectedStatus || (filteredAttendee?.status?.trim().toLowerCase() || '');
+ const checkInAttendee = async (attendeeId: string) => {
+  let statusToUpdate = selectedStatus || (filteredAttendee?.status?.trim().toLowerCase() || '');
 
-  
-    // ✅ Ensure status is always valid
-    if (!statusToUpdate) {
-      alert("Please select 'Single' or 'Married' before checking in.");
+  // ✅ Ensure status is always valid
+  if (!statusToUpdate) {
+    alert("Please select 'Single' or 'Married' before checking in.");
+    return;
+  }
+
+  const validStatuses = ["single", "married"];
+  if (!validStatuses.includes(statusToUpdate)) {
+    alert("Invalid status. Only 'Single' or 'Married' is allowed.");
+    return;
+  }
+
+  console.log("🔍 Checking in Attendee ID:", attendeeId);
+  console.log("🔍 Status being updated to:", statusToUpdate.toUpperCase());
+
+  // ✅ Get current timestamp
+  const checkInTime = new Date().toISOString();
+
+  try {
+    const { data, error } = await supabase
+      .from('attendees')
+      .update({
+        checked_in: true,
+        status: statusToUpdate, // ✅ Ensure lowercase for consistency
+        check_in_time: checkInTime, // ✅ Store check-in timestamp
+      })
+      .eq('id', attendeeId)
+      .select()
+      .single();
+
+    if (error) {
+      console.error("🚨 Supabase Error:", error);
+      alert(`Failed to check in attendee. Error: ${error.message}`);
       return;
     }
-  
-    const validStatuses = ["single", "married"];
-    if (!validStatuses.includes(statusToUpdate)) {
-      alert("Invalid status. Only 'Single' or 'Married' is allowed.");
-      return;
-    }
-  
-    console.log("🔍 Checking in Attendee ID:", attendeeId);
-    console.log("🔍 Status being updated to:", statusToUpdate.toUpperCase());
-  
-    try {
-      const { data, error } = await supabase
-        .from('attendees')
-        .update({
-          checked_in: true,
-          status: statusToUpdate, // ✅ Ensure lowercase for consistency
-        })
-        .eq('id', attendeeId)
-        .select()
-        .single();
-  
-      if (error) {
-        console.error("🚨 Supabase Error:", error);
-        alert(`Failed to check in attendee. Error: ${error.message}`);
-        return;
-      }
-  
-      console.log("✅ Check-in successful! Updated attendee:", data);
-  
-      setCheckedIn(true);
-      setAttendees(prev =>
-        prev.map(attendee =>
-          attendee.id === attendeeId ? { ...attendee, checked_in: true, status: statusToUpdate } : attendee
-        )
-      );
-      setFilteredAttendee(prev => prev ? { ...prev, checked_in: true, status: statusToUpdate } : null);
-      alert("Check-in successful!");
-  
-    } catch (err) {
-      console.error("🔥 Unexpected error:", err);
-      alert("An unexpected error occurred. Please try again.");
-    }
-  };
-  
+
+    console.log("✅ Check-in successful! Updated attendee:", data);
+
+    setCheckedIn(true);
+    setAttendees(prev =>
+      prev.map(attendee =>
+        attendee.id === attendeeId ? { ...attendee, checked_in: true, status: statusToUpdate, check_in_time: checkInTime } : attendee
+      )
+    );
+    setFilteredAttendee(prev => prev ? { ...prev, checked_in: true, status: statusToUpdate, check_in_time: checkInTime } : null);
+
+    alert("Check-in successful!");
+
+  } catch (err) {
+    console.error("🔥 Unexpected error:", err);
+    alert("An unexpected error occurred. Please try again.");
+  }
+};
+
 
   return (
     <div className={styles.attendeeSearchContainer}>
@@ -255,7 +259,12 @@ const AttendeeSearch: React.FC = () => {
       {filteredAttendee && (
         <div className={styles.attendeeFound}>
           <h3>Attendee Found</h3>
-          <p>{filteredAttendee.name} - {filteredAttendee.email || "No Email"} - {filteredAttendee.checked_in ? "✔ Checked In" : "❌ Not Checked In"}</p>
+          <p>
+            {filteredAttendee.name} - {filteredAttendee.checked_in 
+            ? `✔ Checked In at ${filteredAttendee.check_in_time ? new Date(filteredAttendee.check_in_time).toLocaleTimeString() : "Unknown Time"}` : '❌ Not Checked In'}
+          </p>
+
+
 
           {/* ✅ If Status is Missing, Prompt for Status */}
           {!filteredAttendee.status && (

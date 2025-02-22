@@ -11,6 +11,23 @@
 }
 
 
+/* ✅ Styling for input fields */
+.input {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+  outline: none;
+
+  &:focus {
+    border-color: #007bff;
+    box-shadow: 0px 0px 5px rgba(0, 123, 255, 0.3);
+  }
+}
+
 
 .title {
   font-size: 24px;
@@ -118,7 +135,7 @@
   color: #856404;
   padding: 15px;
   margin: 15px 0;
- //border: 1px solid #ffeeba;
+  border: 1px solid #ffeeba;
   border-radius: 8px;
   text-align: center;
 }
