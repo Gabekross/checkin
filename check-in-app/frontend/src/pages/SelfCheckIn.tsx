@@ -8,9 +8,11 @@ import styles from '../styles/SelfCheckIn.module.scss';
 const SelfCheckIn: React.FC = () => {
   const { eventId } = useParams<{ eventId: string }>();
   const [event, setEvent] = useState<any>(null);
-  const [attendees, setAttendees] = useState<{ id: string; name: string; email: string; status?: string; checked_in: boolean }[]>([]);
+  // const [attendees, setAttendees] = useState<{ id: string; name: string; email: string; status?: string; checked_in: boolean }[]>([]);
+  const [attendees, setAttendees] = useState<{ id: string; name: string; email?: string; status?: string; checked_in: boolean ;check_in_time?: string}[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [filteredAttendee, setFilteredAttendee] = useState<{ id: string; name: string; email: string; status?: string; checked_in: boolean } | null>(null);
+  const [filteredAttendee, setFilteredAttendee] = useState<{ id: string; name: string; email?: string; status?: string; checked_in: boolean; check_in_time?: string; } | null>(null);
+  //const [filteredAttendee, setFilteredAttendee] = useState<{ id: string; name: string; email: string; status?: string; checked_in: boolean } | null>(null);
   const [newAttendee, setNewAttendee] = useState<{ name: string; email: string; status: string }>({ name: '', email: '', status: '' });
   const [checkedIn, setCheckedIn] = useState<boolean>(false);
   const [showWarning, setShowWarning] = useState<boolean>(false);
@@ -73,13 +75,27 @@ const SelfCheckIn: React.FC = () => {
       return;
     }
 
-    const { error } = await supabase.from('attendees').update({ checked_in: true, status }).eq('id', attendeeId);
+    //const checkInTime = new Date().toISOString();
+     // ✅ Get current local time and format it properly
+    const localTime = new Date();
+    const checkInTime = localTime.toLocaleString("en-US", { 
+      timeZone: "America/New_York", // ✅ Change this to your actual timezone!
+      hour12: false // ✅ Ensures 24-hour format (optional, set to true for AM/PM)
+    });
+
+
+    const { error } = await supabase.from('attendees').update({ checked_in: true, status,check_in_time: checkInTime }).eq('id', attendeeId);
     if (error) {
       console.error('Error checking in attendee:', error);
       alert('Failed to check in attendee.');
     } else {
       setCheckedIn(true);
-      setFilteredAttendee(prev => prev ? { ...prev, checked_in: true, status } : null);
+      setAttendees(prev =>
+        prev.map(attendee =>
+          attendee.id === attendeeId ? { ...attendee, checked_in: true, status, check_in_time: checkInTime } : attendee
+        )
+      );
+      setFilteredAttendee(prev => prev ? { ...prev, checked_in: true, status , check_in_time: checkInTime} : null);
       alert('Check-in successful!');
     }
   };

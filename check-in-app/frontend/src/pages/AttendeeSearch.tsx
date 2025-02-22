@@ -89,69 +89,6 @@ const AttendeeSearch: React.FC = () => {
     }
   };
 
-  // ✅ Handle Check-In with Status Update
-  // const checkInAttendee = async (attendeeId: string) => {
-  //   let statusToUpdate = selectedStatus || (filteredAttendee ? filteredAttendee.status : "");
-
-  //   if (!statusToUpdate) {
-  //     alert("Please select a status before checking in.");
-  //     return;
-  //   }
-
-  //   const { data, error } = await supabase.from("attendees").update({
-  //     checked_in: true,
-  //     status: statusToUpdate.trim().toUpperCase()
-  //   }).eq("id", attendeeId).select("*").single();
-
-  //   if (error) {
-  //     console.error("Error checking in attendee:", error);
-  //     alert("Failed to check in attendee.");
-  //   } else {
-  //     setAttendees(prev =>
-  //       prev.map(attendee => (attendee.id === attendeeId ? { ...attendee, checked_in: true, status: data.status } : attendee))
-  //     );
-  //     setFilteredAttendee(prev => prev ? { ...prev, checked_in: true, status: data.status } : null);
-  //     alert("Check-in successful!");
-  //   }
-  // };
-
-  // const checkInAttendee = async (attendeeId: string) => {
-  //   let statusToUpdate = selectedStatus || (filteredAttendee ? filteredAttendee.status : '');
-  
-  //   if (!statusToUpdate) {
-  //     alert('Please select a status before checking in.');
-  //     return;
-  //   }
-  
-  //   try {
-  //     const { data, error } = await supabase
-  //       .from('attendees')
-  //       .update({
-  //         checked_in: true,
-  //         status: statusToUpdate.trim().toUpperCase(),
-  //       })
-  //       .eq('id', attendeeId)
-  //       .select()
-  //       .single(); // ✅ Ensure we are updating only one row and retrieving the updated data
-  
-  //     if (error) {
-  //       console.error('Error checking in attendee:', error);
-  //       alert('Failed to check in attendee.');
-  //     } else {
-  //       setCheckedIn(true);
-  //       setAttendees(prev =>
-  //         prev.map(attendee =>
-  //           attendee.id === attendeeId ? { ...attendee, checked_in: true, status: statusToUpdate } : attendee
-  //         )
-  //       );
-  //       setFilteredAttendee(prev => prev ? { ...prev, checked_in: true, status: statusToUpdate } : null);
-  //       alert('Check-in successful!');
-  //     }
-  //   } catch (err) {
-  //     console.error("Unexpected error:", err);
-  //     alert("An unexpected error occurred. Please try again.");
-  //   }
-  // };
  const checkInAttendee = async (attendeeId: string) => {
   let statusToUpdate = selectedStatus || (filteredAttendee?.status?.trim().toLowerCase() || '');
 
@@ -171,7 +108,13 @@ const AttendeeSearch: React.FC = () => {
   console.log("🔍 Status being updated to:", statusToUpdate.toUpperCase());
 
   // ✅ Get current timestamp
-  const checkInTime = new Date().toISOString();
+ 
+   // ✅ Get local time
+   const localTime = new Date();
+   const checkInTime = localTime.toLocaleString("en-US", { 
+     timeZone: "America/New_York", // ✅ Adjust based on your region
+     hour12: false 
+   });
 
   try {
     const { data, error } = await supabase
@@ -233,7 +176,9 @@ const AttendeeSearch: React.FC = () => {
             <ul className={styles.attendeeList}>
               {attendees.map(attendee => (
                 <li key={attendee.id} className={styles.attendeeItem}>
-                  {attendee.name} - {attendee.email || "No Email"} - {attendee.status || "No Status"} - {attendee.checked_in ? "✔ Checked In" : "❌ Not Checked In"}
+                  {attendee.name} - {attendee.status || "No Status"} - {attendee.checked_in 
+          ? `✔ Checked In at ${attendee.check_in_time ? new Date(attendee.check_in_time).toLocaleTimeString() : "Unknown Time"}`
+          : "❌ Not Checked In"}
                 </li>
               ))}
             </ul>

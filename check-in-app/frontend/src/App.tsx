@@ -14,7 +14,7 @@ import SelfCheckIn from "./pages/SelfCheckIn";
 const App: React.FC = () => {
   return (
     <>
-      <Navbar />
+      
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/admin-sign-in" element={<AdminSignIn />} />

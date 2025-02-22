@@ -55,7 +55,7 @@ const AdminCheckIn: React.FC = () => {
       {/* ✅ Admin Navigation Cards (Column Layout) */}
       <div className={styles.adminNavContainer}>
         <div className={styles.adminNavCard} onClick={() => navigate("/create-event")}>
-          <h3>Create Event</h3>
+          <h3>Create New Event</h3>
           <p>Set up new events and manage details.</p>
         </div>
         <div className={styles.adminNavCard} onClick={() => navigate("/test-qr")}>
@@ -73,7 +73,7 @@ const AdminCheckIn: React.FC = () => {
       </div>
 
       {/* ✅ Attendee List */}
-      <h3 className={styles.listTitle}>Registered Attendees</h3>
+      <h3 className={styles.listTitle}></h3>
       {selectedEventId ? (
         <ul className={styles.attendeeList}>
           {attendees.length > 0 ? (
@@ -87,7 +87,7 @@ const AdminCheckIn: React.FC = () => {
           )}
         </ul>
       ) : (
-        <p className={styles.selectEventMessage}>Select an event in "Search & Register Attendees" to view attendees.</p>
+        <p className={styles.selectEventMessage}></p>
       )}
     </div>
   );
