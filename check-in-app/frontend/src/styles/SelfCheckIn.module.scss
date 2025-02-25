@@ -3,7 +3,7 @@
   margin: 50px auto;
   padding: 20px;
   background: linear-gradient(135deg, #F0F4F8, #D9E2EC);
-  background: linear-gradient(135deg, #f8f0f0, #efede5);
+  background: linear-gradient(135deg, #f8f0f0, #fcfcfb);
   border-radius: 10px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
@@ -19,11 +19,11 @@
 /* ✅ Style for event info */
 .eventInfo {
   background: linear-gradient(135deg, #f8f6f0, #EDE7F6);
-  background: linear-gradient(135deg, #f8f0f0, #bfb081);
+  background: linear-gradient(135deg, #f8f0f0, #f4f2ec);
   padding: 5px;
   border-radius: 8px;
   margin-bottom: 20px;
-  font-size: 16px;
+  font-size: 16px;  
   color: #444;
 }
 
@@ -73,9 +73,18 @@
 }
 
 /* ✅ Style for search & registration sections */
-.searchSection,
+.searchSection{
+  margin-bottom: 20px;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+}
 .registerSection {
   margin-bottom: 20px;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+
 }
 
 /* ✅ Attendee found section */
