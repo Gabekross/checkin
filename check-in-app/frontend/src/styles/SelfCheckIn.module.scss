@@ -2,8 +2,8 @@
   max-width: 450px;
   margin: 50px auto;
   padding: 20px;
-  background: linear-gradient(135deg, #F0F4F8, #D9E2EC);
-  background: linear-gradient(135deg, #f8f0f0, #fcfcfb);
+  background: linear-gradient(135deg, #F0F4F8, #D9E2EC); //(Use for default)
+  background: linear-gradient(135deg, #f8f0f0, #fcfcfb); //(use for custom)
   border-radius: 10px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
@@ -18,8 +18,8 @@
 
 /* ✅ Style for event info */
 .eventInfo {
-  background: linear-gradient(135deg, #f8f6f0, #EDE7F6);
-  background: linear-gradient(135deg, #f8f0f0, #f4f2ec);
+  background: linear-gradient(135deg, #f8f6f0, #EDE7F6); //(Use for default)
+  background: linear-gradient(135deg, #f8f0f0, #f4f2ec); ////(use for custom)
   padding: 5px;
   border-radius: 8px;
   margin-bottom: 20px;
@@ -48,8 +48,9 @@
   outline: none;
 
   &:focus {
-    border-color: #007bff;
-    box-shadow: 0px 0px 5px rgba(0, 123, 255, 0.3);
+    border-color: #007bff; //(Use for default)
+    border-color:#856404;
+    box-shadow: 0px 0px 5px rgba(255, 0, 183, 0.3);
   }
 }
 
