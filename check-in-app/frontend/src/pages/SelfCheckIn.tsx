@@ -104,10 +104,27 @@ const SelfCheckIn: React.FC = () => {
     <div className={`${styles.selfCheckIn} ${checkedIn ? styles.checkedIn : ''}`} style={checkedIn ? { backgroundColor: 'green', color: 'white' } : {}}>
       {event && (
         <div className={styles.eventInfo}>
+        <h2>{event.name}</h2>
+        <p>{event.date} - {event.location}</p>
+        
+        {/* ✅ Display Event Image (Use Default if Missing) */}
+        <img 
+          src={event.image_url || '/default-event.jpg'} // Provide a default image path
+          alt="Event"
+          className={styles.eventImage}
+        />
+      </div>
+      
+)}
+
+
+{/* 
+      {event && (
+        <div className={styles.eventInfo}>
           <h2>{event.name}</h2>
           <p>{event.date} - {event.location}</p>
         </div>
-      )}
+      )} */}
       {!checkedIn ? (
         <>
           {/* <h2 className={styles.title}>Scan QR Code or Enter Your Name</h2>

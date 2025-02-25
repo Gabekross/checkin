@@ -1,58 +1,116 @@
-import React, { useState } from 'react';
-import { supabase } from '../supabase';
-import { useNavigate } from 'react-router-dom';
-import styles from '../styles/CreateEvent.module.scss';
+import React, { useState } from "react";
+import { supabase } from "../supabase";
+import styles from "../styles/CreateEvent.module.scss";
 
 const CreateEvent: React.FC = () => {
-  const [name, setName] = useState('');
-  const [date, setDate] = useState('');
-  const [location, setLocation] = useState('');
-  const [description, setDescription] = useState('');
-  const navigate = useNavigate();
+  const [eventName, setEventName] = useState("");
+  const [eventDate, setEventDate] = useState("");
+  const [eventLocation, setEventLocation] = useState("");
+  const [eventImage, setEventImage] = useState<File | null>(null);
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const [uploading, setUploading] = useState(false);
 
-  const handleCreateEvent = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const { data, error } = await supabase.from('events').insert([{ name, date, location, description }]);
-    if (error) return alert(error.message);
-    alert('Event created successfully!');
-    navigate('/');
+  // ✅ Handle File Selection
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setEventImage(file);
+      setPreviewImage(URL.createObjectURL(file)); // ✅ Show preview before upload
+    }
+  };
+
+  // ✅ Handle Event Creation
+  const handleCreateEvent = async () => {
+    if (!eventName || !eventDate || !eventLocation) {
+      alert("Please fill in all fields.");
+      return;
+    }
+
+    let imageUrl = null;
+
+    if (eventImage) {
+      setUploading(true);
+      const filePath = `events/${Date.now()}_${eventImage.name}`;
+
+      const { data, error: uploadError } = await supabase.storage.from("event-images").upload(filePath, eventImage);
+
+      if (uploadError) {
+        console.error("🚨 Image upload failed:", uploadError.message);
+        alert("Failed to upload image.");
+        setUploading(false);
+        return;
+      }
+
+      // ✅ Get Public Image URL from Supabase
+      imageUrl = supabase.storage.from("event-images").getPublicUrl(filePath).data.publicUrl;
+    }
+
+    // ✅ Save Event Data to Supabase
+    const { error: eventError } = await supabase.from("events").insert([
+      {
+        name: eventName,
+        date: eventDate,
+        location: eventLocation,
+        image_url: imageUrl, // ✅ Store image URL
+      },
+    ]);
+
+    setUploading(false);
+
+    if (eventError) {
+      console.error("🚨 Event creation failed:", eventError.message);
+      alert("Failed to create event.");
+      return;
+    }
+
+    alert("🎉 Event created successfully!");
+    setEventName("");
+    setEventDate("");
+    setEventLocation("");
+    setPreviewImage(null);
+    setEventImage(null);
   };
 
   return (
     <div className={styles.createEventContainer}>
-      <h2 className={styles.title}>Create New Event</h2>
-      <form onSubmit={handleCreateEvent} className={styles.eventForm}>
-        <input 
-          type="text" 
-          placeholder="Event Name" 
-          value={name} 
-          onChange={e => setName(e.target.value)} 
-          required 
-          className={styles.input}
-        />
-        <input 
-          type="datetime-local" 
-          value={date} 
-          onChange={e => setDate(e.target.value)} 
-          required 
-          className={styles.input}
-        />
-        <input 
-          type="text" 
-          placeholder="Location" 
-          value={location} 
-          onChange={e => setLocation(e.target.value)} 
-          required 
-          className={styles.input}
-        />
-        <textarea 
-          placeholder="Description" 
-          value={description} 
-          onChange={e => setDescription(e.target.value)} 
-          className={styles.textarea}
-        />
-        <button type="submit" className={styles.submitButton}>Create Event</button>
-      </form>
+      <h2>Create Event</h2>
+      
+      <input
+        type="text"
+        placeholder="Event Name"
+        value={eventName}
+        onChange={(e) => setEventName(e.target.value)}
+        className={styles.input}
+      />
+      <input
+        type="date"
+        placeholder="Event Date"
+        value={eventDate}
+        onChange={(e) => setEventDate(e.target.value)}
+        className={styles.input}
+      />
+      <input
+        type="text"
+        placeholder="Event Location"
+        value={eventLocation}
+        onChange={(e) => setEventLocation(e.target.value)}
+        className={styles.input}
+      />
+
+      {/* ✅ Image Upload Section */}
+      <label className={styles.fileLabel}>📷 Upload Event Image</label>
+      <input type="file" accept="image/*" onChange={handleFileChange} className={styles.fileInput} />
+
+      {previewImage && (
+        <div className={styles.previewImage}>
+          <h3>Event Image Preview:</h3>
+          <img src={previewImage} alt="Event" />
+        </div>
+      )}
+
+      <button onClick={handleCreateEvent} className={styles.button} disabled={uploading}>
+        {uploading ? "Uploading..." : "Create Event"}
+      </button>
     </div>
   );
 };
