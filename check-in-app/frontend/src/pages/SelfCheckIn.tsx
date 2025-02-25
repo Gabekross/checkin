@@ -104,8 +104,8 @@ const SelfCheckIn: React.FC = () => {
     <div className={`${styles.selfCheckIn} ${checkedIn ? styles.checkedIn : ''}`} style={checkedIn ? { backgroundColor: 'green', color: 'white' } : {}}>
       {event && (
         <div className={styles.eventInfo}>
-        <h2>{event.name}</h2>
-        <p>{event.date} - {event.location}</p>
+        {/* <h2>{event.name}</h2>
+        <p>{event.date} - {event.location}</p> */}
         
         {/* ✅ Display Event Image (Use Default if Missing) */}
         <img 
@@ -180,7 +180,7 @@ const SelfCheckIn: React.FC = () => {
               <h3>Not Registered? Register Here</h3>
               <input
                 type="text"
-                placeholder="Enter Your Name"
+                placeholder="Enter your name"
                 value={newAttendee.name}
                 onChange={(e) => setNewAttendee({ ...newAttendee, name: e.target.value })}
                 className={styles.input}

@@ -2,8 +2,8 @@
   max-width: 450px;
   margin: 50px auto;
   padding: 20px;
-  background: #ffffff;
   background: linear-gradient(135deg, #F0F4F8, #D9E2EC);
+  background: linear-gradient(135deg, #f8f0f0, #efede5);
   border-radius: 10px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
@@ -18,9 +18,9 @@
 
 /* ✅ Style for event info */
 .eventInfo {
-  background: #f8f9fa;
   background: linear-gradient(135deg, #f8f6f0, #EDE7F6);
-  padding: 15px;
+  background: linear-gradient(135deg, #f8f0f0, #bfb081);
+  padding: 5px;
   border-radius: 8px;
   margin-bottom: 20px;
   font-size: 16px;
@@ -57,6 +57,7 @@
 .button {
   width: 60%;
   background-color: #007bff;
+  background-color:#887d5c;
   color: white;
   padding: 12px;
   font-size: 16px;
@@ -67,6 +68,7 @@
 
   &:hover {
     background-color: #0056b3;
+    background-color:#856404
   }
 }
 
@@ -170,6 +172,12 @@
   font-size: 16px;
 }
 
+h3{
+  color:#856404
+}
+label{
+  color:#856404
+}
 
 /* ✅ Responsive Design */
 @media (max-width: 768px) {
