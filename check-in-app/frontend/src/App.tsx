@@ -11,13 +11,19 @@ import GuestCheckIn from "./pages/GuestCheckIn"; // ✅ Import Guest Check-In Pa
 import AttendeeSearch from "./pages/AttendeeSearch"; //
 import SelfCheckIn from "./pages/SelfCheckIn";
 import CheckInAnalytics from "./pages/CheckInAnalytics";
+import LandingPage from "./pages/LandingPage";
+
+
+
 
 const App: React.FC = () => {
   return (
     <>
       
       <Routes>
+        <Route path="/" element={<LandingPage />} />
         <Route path="/" element={<Home />} />
+        <Route path="/" element={<LandingPage />} />
         <Route path="/admin-sign-in" element={<AdminSignIn />} />
         <Route path="/admin-check-in" element={<AdminCheckIn />} />
         <Route path="/attendee-search" element={<AttendeeSearch />} /> 
