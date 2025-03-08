@@ -1,11 +1,13 @@
 .analyticsContainer {
     text-align: center;
-    max-width: 800px;
+    max-width: 900px;
+    padding: 20px;
+    background: linear-gradient(135deg, #F0F4F8, #D9E2EC);
     margin: 0 auto;
   }
   
   .title {
-    font-size: 24px;
+    font-size: 20px;
     font-weight: bold;
     margin-bottom: 15px;
   }
@@ -17,17 +19,39 @@
   .statsSection {
     display: flex;
     justify-content: space-around;
-    font-size: 18px;
+    font-size: 12px;
     font-weight: bold;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
   }
   
   .chartContainer {
-    margin-top: 30px;
+    margin-top: 15px;
   }
   
   .noShowContainer {
-    margin-top: 20px;
+    margin-top: 15px;
     text-align: left;
+  }
+  
+  .exportButton {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    margin-top: 15px;
+    transition: background 0.3s ease-in-out;
+  }
+  
+  .exportButton:hover {
+    background-color: #218838;
+  }
+  
+  .exportButton:disabled {
+    background: gray;
+    cursor: not-allowed;
   }
   
