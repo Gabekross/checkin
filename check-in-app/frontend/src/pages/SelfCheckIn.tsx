@@ -50,28 +50,46 @@ const SelfCheckIn: React.FC = () => {
   };
 
   const handleRegister = async () => {
-    if (!newAttendee.name || !newAttendee.email || !newAttendee.status) {
-      alert('Please provide name, email, and marital status.');
+    // ✅ Email Validation Regex
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  
+    // ✅ Trim spaces and remove special characters from the name
+    const sanitizedName = newAttendee.name.replace(/[^a-zA-Z\s]/g, "").trim();
+  
+    if (!sanitizedName) {
+      alert("Please enter a valid name with only letters.");
       return;
     }
-
-    const { data, error } = await supabase.from('attendees').insert({
+  
+    if (!newAttendee.email || !emailRegex.test(newAttendee.email)) {
+      alert("Please enter a valid email address.");
+      return;
+    }
+  
+    if (!newAttendee.status) {
+      alert("Please select your marital status.");
+      return;
+    }
+  
+    // ✅ Save sanitized input in the database
+    const { data, error } = await supabase.from("attendees").insert({
       event_id: eventId,
-      name: newAttendee.name,
-      email: newAttendee.email,
+      name: sanitizedName, 
+      email: newAttendee.email.trim(),
       status: newAttendee.status,
       checked_in: false
-    }).select('*').single();
-
+    }).select("*").single();
+  
     if (error) {
-      console.error('Error registering attendee:', error);
-      alert('Failed to register attendee.');
+      console.error("Error registering attendee:", error);
+      alert("Failed to register attendee.");
     } else {
       setAttendees([...attendees, data]);
       setFilteredAttendee(data);
-      alert('Registration successful! You can now check in.');
+      alert("Registration successful! You can now check in.");
     }
   };
+  
 
   const checkInAttendee = async (attendeeId: string, status?: string) => {
     if (!status) {
@@ -186,14 +204,16 @@ const SelfCheckIn: React.FC = () => {
                 type="text"
                 placeholder="Enter your name"
                 value={newAttendee.name}
-                onChange={(e) => setNewAttendee({ ...newAttendee, name: e.target.value })}
+                onChange={(e) => {
+                  const sanitizedValue = e.target.value.replace(/[^a-zA-Z\s]/g, "");
+                  setNewAttendee({ ...newAttendee, name: sanitizedValue.trimStart() })}}
                 className={styles.input}
               />
               <input
                 type="email"
                 placeholder="Enter Your Email"
                 value={newAttendee.email}
-                onChange={(e) => setNewAttendee({ ...newAttendee, email: e.target.value })}
+                onChange={(e) => setNewAttendee({ ...newAttendee, email: e.target.value.trim() })}
                 className={styles.input}
               />
               <label>Select Marital Status:</label>
