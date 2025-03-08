@@ -40,7 +40,11 @@ const SelfCheckIn: React.FC = () => {
   }, [eventId]);
 
   const handleSearch = () => {
-    const attendee = attendees.find(a => a.name.toLowerCase() === searchQuery.toLowerCase());
+
+    const sanitizedQuery = searchQuery.trim();
+    if (!sanitizedQuery) return;
+
+    const attendee = attendees.find(a => a.name.toLowerCase() === sanitizedQuery.toLowerCase());
     setFilteredAttendee(attendee || null);
     setShowWarning(!attendee);
   };

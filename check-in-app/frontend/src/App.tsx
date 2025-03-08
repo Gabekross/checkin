@@ -21,7 +21,7 @@ const App: React.FC = () => {
     <>
       
       <Routes>
-        <Route path="/" element={<LandingPage />} />
+       
         <Route path="/" element={<Home />} />
         <Route path="/" element={<LandingPage />} />
         <Route path="/admin-sign-in" element={<AdminSignIn />} />

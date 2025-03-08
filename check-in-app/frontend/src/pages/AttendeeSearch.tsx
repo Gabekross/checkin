@@ -52,9 +52,10 @@ const AttendeeSearch: React.FC = () => {
 
   // ✅ Handle Attendee Search
   const handleSearch = () => {
-    if (!searchQuery.trim()) return;
+    const sanitizedQuery = searchQuery.trim();
+    if (!sanitizedQuery) return;
 
-    const attendee = attendees.find(a => a.name.toLowerCase() === searchQuery.toLowerCase());
+    const attendee = attendees.find(a => a.name.toLowerCase() === sanitizedQuery.toLowerCase());
     if (attendee) {
       setFilteredAttendee(attendee);
       setShowWarning(false);
