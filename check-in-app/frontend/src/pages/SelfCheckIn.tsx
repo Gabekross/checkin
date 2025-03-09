@@ -41,7 +41,7 @@ const SelfCheckIn: React.FC = () => {
 
   const handleSearch = () => {
 
-    const sanitizedQuery = searchQuery.trim();
+    const sanitizedQuery = searchQuery.replace(/[^a-zA-Z\s]/g, "").trim();
     if (!sanitizedQuery) return;
 
     const attendee = attendees.find(a => a.name.toLowerCase() === sanitizedQuery.toLowerCase());
@@ -118,7 +118,8 @@ const SelfCheckIn: React.FC = () => {
         )
       );
       setFilteredAttendee(prev => prev ? { ...prev, checked_in: true, status , check_in_time: checkInTime} : null);
-      alert('Check-in successful!');
+      alert(`Welcome, ${filteredAttendee?.name || "Guest"}! You are now checked in.`);
+
     }
   };
 
@@ -231,8 +232,13 @@ const SelfCheckIn: React.FC = () => {
           )}
         </>
       ) : (
-        <div className={`${styles.confirmation} ${styles.checkedIn}`}>
-          <h2>Checked In</h2>
+        <div className={`${styles.checkedIn}`}>
+            <div className={`${styles.confirmation} ${styles.fadeIn}`}>
+                <h2 className={styles.welcomeText}>Welcome, {filteredAttendee?.name?.split(" ")[0] || "Guest"}!</h2>
+                <h3 className={styles.eventName}>_________________</h3>
+                <p className={styles.eventText}>Checked In</p>
+               
+            </div>
         </div>
       )}
     </div>
