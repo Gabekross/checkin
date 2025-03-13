@@ -123,126 +123,250 @@ const SelfCheckIn: React.FC = () => {
     }
   };
 
-  return (
-    <div className={`${styles.selfCheckIn} ${checkedIn ? styles.checkedIn : ''}`} style={checkedIn ? { backgroundColor: 'green', color: 'white' } : {}}>
-      {event && (
-        <div className={styles.eventInfo}>
-        {/* <h2>{event.name}</h2>
-        <p>{event.date} - {event.location}</p> */}
+//   return (
+//     <div className={`${styles.selfCheckIn} ${checkedIn ? styles.checkedIn : ''}`} style={checkedIn ? { backgroundColor: 'green', color: 'white' } : {}}>
+//       {event && (
+//         <div className={styles.eventInfo}>
+//         {/* <h2>{event.name}</h2>
+//         <p>{event.date} - {event.location}</p> */}
         
-        {/* ✅ Display Event Image (Use Default if Missing) */}
+//         {/* ✅ Display Event Image (Use Default if Missing) */}
+//         <img 
+//           src={event.image_url || '/default-event.jpg'} // Provide a default image path
+//           alt="Event"
+//           className={styles.eventImage}
+//         />
+//       </div>
+      
+// )}
+
+
+// {/* 
+//       {event && (
+//         <div className={styles.eventInfo}>
+//           <h2>{event.name}</h2>
+//           <p>{event.date} - {event.location}</p>
+//         </div>
+//       )} */}
+//       {!checkedIn ? (
+//         <>
+//           {/* <h2 className={styles.title}>Scan QR Code or Enter Your Name</h2>
+//           <QRScanner onScanSuccess={(scannedEventId) => navigate(`/self-check-in/${scannedEventId}`)} /> */}
+//           <div className={styles.searchSection}>
+//             <input
+//               type="text"
+//               placeholder="Search Attendee by Name"
+//               value={searchQuery}
+//               onChange={(e) => setSearchQuery(e.target.value)}
+//               className={styles.input}
+//             />
+//             <button onClick={handleSearch} className={styles.button}>Search</button>
+//           </div>
+
+//           {/* Warning message if attendee not found */}
+//           {showWarning && (
+//             <div className={styles.warningMessage}>
+//               <p>Attendee not found.. <br />Please register below.</p>
+//               <button className={styles.closeButton} onClick={() => setShowWarning(false)}>X</button>
+//             </div>
+//           )}
+
+//           {/* If attendee is found */}
+//           {filteredAttendee && (
+//             <div className={styles.attendeeFound}>
+//               <h3>Attendee Found</h3>
+//               <p>{filteredAttendee.name} - {filteredAttendee.checked_in ? '✔ Checked In' : '❌ Not Checked In'}</p>
+
+//               {!filteredAttendee.checked_in && (
+//                 <>
+//                   {filteredAttendee.status ? (
+//                     <button onClick={() => checkInAttendee(filteredAttendee.id, filteredAttendee.status)} className={styles.button}>Check In</button>
+//                   ) : (
+//                     <>
+//                       <label>Select Marital Status:</label>
+//                       <select onChange={(e) => setSelectedStatus(e.target.value)} className={styles.input}>
+//                         <option value="">-- Select --</option>
+//                         <option value="single">Single</option>
+//                         <option value="married">Married</option>
+//                       </select>
+//                       <button onClick={() => checkInAttendee(filteredAttendee.id, selectedStatus)} className={styles.button}>Submit & Check In</button>
+//                     </>
+//                   )}
+//                 </>
+//               )}
+//             </div>
+//           )}
+
+//           {/* Registration form for new attendees */}
+//           {!filteredAttendee && (
+//             <div className={styles.registerSection}>
+//               <h3>Not Registered? Register Here</h3>
+//               <input
+//                 type="text"
+//                 placeholder="Enter your name"
+//                 value={newAttendee.name}
+//                 onChange={(e) => {
+//                   const sanitizedValue = e.target.value.replace(/[^a-zA-Z\s]/g, "");
+//                   setNewAttendee({ ...newAttendee, name: sanitizedValue.trimStart() })}}
+//                 className={styles.input}
+//               />
+//               <input
+//                 type="email"
+//                 placeholder="Enter Your Email"
+//                 value={newAttendee.email}
+//                 onChange={(e) => setNewAttendee({ ...newAttendee, email: e.target.value.trim() })}
+//                 className={styles.input}
+//               />
+//               <label>Select Marital Status:</label>
+//               <select
+//                 value={newAttendee.status}
+//                 onChange={(e) => setNewAttendee({ ...newAttendee, status: e.target.value })}
+//                 className={styles.input}
+//               >
+//                 <option value="">-- Select --</option>
+//                 <option value="single">Single</option>
+//                 <option value="married">Married</option>
+//               </select>
+//               <button onClick={handleRegister} className={styles.button}>Register</button>
+//             </div>
+//           )}
+//         </>
+//       ) : (
+//         <div className={`${styles.checkedIn}`}
+
+//         style={{ 
+//           backgroundColor: filteredAttendee.status === "single" ? "green" : "yellow", 
+//           color: filteredAttendee.status === "single" ? "white" : "black" 
+//         }}
+
+        
+        
+//         >
+//             <div className={`${styles.confirmation} ${styles.fadeIn}`}>
+//                 <h2 className={styles.welcomeText}>Welcome, {filteredAttendee?.name?.split(" ")[0] || "Guest"}!</h2>
+//                 <h3 className={styles.eventName}>_________________</h3>
+//                 <p className={styles.eventText}>Checked In</p>
+               
+//             </div>
+//         </div>
+//       )}
+//     </div>
+//   );
+
+
+return (
+  <div className={`${styles.selfCheckIn} ${checkedIn ? styles.checkedIn : ''}`}>
+
+    {event && (
+      <div className={styles.eventInfo}>
         <img 
-          src={event.image_url || '/default-event.jpg'} // Provide a default image path
+          src={event.image_url || '/default-event.jpg'} 
           alt="Event"
           className={styles.eventImage}
         />
       </div>
-      
-)}
+    )}
 
-
-{/* 
-      {event && (
-        <div className={styles.eventInfo}>
-          <h2>{event.name}</h2>
-          <p>{event.date} - {event.location}</p>
+    {!checkedIn ? (
+      <>
+        <div className={styles.searchSection}>
+          <input
+            type="text"
+            placeholder="Search Attendee by Name"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className={styles.input}
+          />
+          <button onClick={handleSearch} className={styles.button}>Search</button>
         </div>
-      )} */}
-      {!checkedIn ? (
-        <>
-          {/* <h2 className={styles.title}>Scan QR Code or Enter Your Name</h2>
-          <QRScanner onScanSuccess={(scannedEventId) => navigate(`/self-check-in/${scannedEventId}`)} /> */}
-          <div className={styles.searchSection}>
+
+        {showWarning && (
+          <div className={styles.warningMessage}>
+            <p>Attendee not found.. <br />Please register below.</p>
+            <button className={styles.closeButton} onClick={() => setShowWarning(false)}>X</button>
+          </div>
+        )}
+
+        {filteredAttendee && (
+          <div className={styles.attendeeFound}>
+            <h3>Attendee Found</h3>
+            <p>{filteredAttendee.name} - {filteredAttendee.checked_in ? '✔ Checked In' : '❌ Not Checked In'}</p>
+
+            {!filteredAttendee.checked_in && (
+              <>
+                {filteredAttendee.status ? (
+                  <button onClick={() => checkInAttendee(filteredAttendee.id, filteredAttendee.status)} className={styles.button}>Check In</button>
+                ) : (
+                  <>
+                    <label>Select Marital Status:</label>
+                    <select onChange={(e) => setSelectedStatus(e.target.value)} className={styles.input}>
+                      <option value="">-- Select --</option>
+                      <option value="single">Single</option>
+                      <option value="married">Married</option>
+                    </select>
+                    <button onClick={() => checkInAttendee(filteredAttendee.id, selectedStatus)} className={styles.button}>Submit & Check In</button>
+                  </>
+                )}
+              </>
+            )}
+          </div>
+        )}
+
+        {!filteredAttendee && (
+          <div className={styles.registerSection}>
+            <h3>Not Registered? Register Here</h3>
             <input
               type="text"
-              placeholder="Search Attendee by Name"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Enter your name"
+              value={newAttendee.name}
+              onChange={(e) => {
+                const sanitizedValue = e.target.value.replace(/[^a-zA-Z\s]/g, "");
+                setNewAttendee({ ...newAttendee, name: sanitizedValue.trimStart() });
+              }}
               className={styles.input}
             />
-            <button onClick={handleSearch} className={styles.button}>Search</button>
+            <input
+              type="email"
+              placeholder="Enter Your Email"
+              value={newAttendee.email}
+              onChange={(e) => setNewAttendee({ ...newAttendee, email: e.target.value.trim() })}
+              className={styles.input}
+            />
+            <label>Select Marital Status:</label>
+            <select
+              value={newAttendee.status}
+              onChange={(e) => setNewAttendee({ ...newAttendee, status: e.target.value })}
+              className={styles.input}
+            >
+              <option value="">-- Select --</option>
+              <option value="single">Single</option>
+              <option value="married">Married</option>
+            </select>
+            <button onClick={handleRegister} className={styles.button}>Register</button>
           </div>
-
-          {/* Warning message if attendee not found */}
-          {showWarning && (
-            <div className={styles.warningMessage}>
-              <p>Attendee not found.. <br />Please register below.</p>
-              <button className={styles.closeButton} onClick={() => setShowWarning(false)}>X</button>
-            </div>
-          )}
-
-          {/* If attendee is found */}
-          {filteredAttendee && (
-            <div className={styles.attendeeFound}>
-              <h3>Attendee Found</h3>
-              <p>{filteredAttendee.name} - {filteredAttendee.checked_in ? '✔ Checked In' : '❌ Not Checked In'}</p>
-
-              {!filteredAttendee.checked_in && (
-                <>
-                  {filteredAttendee.status ? (
-                    <button onClick={() => checkInAttendee(filteredAttendee.id, filteredAttendee.status)} className={styles.button}>Check In</button>
-                  ) : (
-                    <>
-                      <label>Select Marital Status:</label>
-                      <select onChange={(e) => setSelectedStatus(e.target.value)} className={styles.input}>
-                        <option value="">-- Select --</option>
-                        <option value="single">Single</option>
-                        <option value="married">Married</option>
-                      </select>
-                      <button onClick={() => checkInAttendee(filteredAttendee.id, selectedStatus)} className={styles.button}>Submit & Check In</button>
-                    </>
-                  )}
-                </>
-              )}
-            </div>
-          )}
-
-          {/* Registration form for new attendees */}
-          {!filteredAttendee && (
-            <div className={styles.registerSection}>
-              <h3>Not Registered? Register Here</h3>
-              <input
-                type="text"
-                placeholder="Enter your name"
-                value={newAttendee.name}
-                onChange={(e) => {
-                  const sanitizedValue = e.target.value.replace(/[^a-zA-Z\s]/g, "");
-                  setNewAttendee({ ...newAttendee, name: sanitizedValue.trimStart() })}}
-                className={styles.input}
-              />
-              <input
-                type="email"
-                placeholder="Enter Your Email"
-                value={newAttendee.email}
-                onChange={(e) => setNewAttendee({ ...newAttendee, email: e.target.value.trim() })}
-                className={styles.input}
-              />
-              <label>Select Marital Status:</label>
-              <select
-                value={newAttendee.status}
-                onChange={(e) => setNewAttendee({ ...newAttendee, status: e.target.value })}
-                className={styles.input}
-              >
-                <option value="">-- Select --</option>
-                <option value="single">Single</option>
-                <option value="married">Married</option>
-              </select>
-              <button onClick={handleRegister} className={styles.button}>Register</button>
-            </div>
-          )}
-        </>
-      ) : (
-        <div className={`${styles.checkedIn}`}>
-            <div className={`${styles.confirmation} ${styles.fadeIn}`}>
-                <h2 className={styles.welcomeText}>Welcome, {filteredAttendee?.name?.split(" ")[0] || "Guest"}!</h2>
-                <h3 className={styles.eventName}>_________________</h3>
-                <p className={styles.eventText}>Checked In</p>
-               
-            </div>
+        )}
+      </>
+    ) : (
+      <div 
+        className={`${styles.checkedIn}`}
+        style={{ 
+          backgroundColor: filteredAttendee?.status === "single" ? "green" : filteredAttendee?.status === "married" ? "yellow" : "gray",
+          color: filteredAttendee?.status ===  "married" ? "black" : "white"
+        }}
+      >
+        <div className={`${styles.confirmation} ${styles.fadeIn}`}>
+          <h2 className={styles.welcomeText}>
+            Welcome, {filteredAttendee?.name?.split(" ")[0] || "Guest"}!
+          </h2>
+          <h3 className={styles.eventLine}>_________________</h3>
+          <p className={styles.eventText}>Checked In</p>
         </div>
-      )}
-    </div>
-  );
+      </div>
+    )}
+  </div>
+);
+
+
 };
 
 export default SelfCheckIn;

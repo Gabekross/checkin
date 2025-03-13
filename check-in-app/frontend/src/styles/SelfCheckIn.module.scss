@@ -195,13 +195,13 @@ label{
 .welcomeText {
   font-size: 2rem;
   
-  color: white;
+  //color: white;
   margin-bottom: 2px;
 }
 
 .eventText {
   font-size: 1.5rem;
-  color: white;
+  //color: white;
   margin-bottom: 5px;
 }
 
@@ -209,6 +209,11 @@ label{
   font-size: 1.5rem;
   font-weight: bold;
   color: #fff;
+  margin-bottom: 2px;
+}
+.eventLine{
+  font-size: 1.5rem;
+  font-weight: bold;
   margin-bottom: 2px;
 }
 
