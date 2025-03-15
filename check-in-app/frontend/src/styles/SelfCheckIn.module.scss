@@ -229,6 +229,19 @@ label{
   min-width: 0; /* Prevent inputs from overflowing */
 }
 
+.searchFields {
+  display: flex;
+  gap: 10px;  /* Space between the two input fields */
+  justify-content: space-between; /* Ensure they are evenly spaced */
+  align-items: center; /* Align input fields properly */
+}
+
+.searchFields .input {
+  flex: 1; /* Ensure both fields take equal width */
+  min-width: 0; /* Prevent overflow */
+}
+
+
 
 /* ✅ Responsive Design */
 @media (max-width: 768px) {

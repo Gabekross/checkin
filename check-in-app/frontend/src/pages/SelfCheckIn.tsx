@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../supabase';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 // import QRScanner from '../components/QRScanner';
 import { fetchEventById } from '../api/events';
 import styles from '../styles/SelfCheckIn.module.scss';
@@ -10,7 +10,7 @@ const SelfCheckIn: React.FC = () => {
   const [event, setEvent] = useState<any>(null);
   // const [attendees, setAttendees] = useState<{ id: string; name: string; email: string; status?: string; checked_in: boolean }[]>([]);
   const [attendees, setAttendees] = useState<{ id: string; name: string; email?: string; status?: string; checked_in: boolean ;check_in_time?: string}[]>([]);
-  const [searchQuery, setSearchQuery] = useState<string>('');
+  //const [searchQuery, setSearchQuery] = useState<string>('');
   const [filteredAttendee, setFilteredAttendee] = useState<{ id: string; name: string; email?: string; status?: string; checked_in: boolean; check_in_time?: string; } | null>(null);
   //const [filteredAttendee, setFilteredAttendee] = useState<{ id: string; name: string; email: string; status?: string; checked_in: boolean } | null>(null);
   const [newAttendee, setNewAttendee] = useState<{ firstName: string; lastName: string; name: string; email: string; status: string }>({ firstName: '',
@@ -18,7 +18,9 @@ const SelfCheckIn: React.FC = () => {
   const [checkedIn, setCheckedIn] = useState<boolean>(false);
   const [showWarning, setShowWarning] = useState<boolean>(false);
   const [selectedStatus, setSelectedStatus] = useState<string>('');
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
+  const [searchFirstName, setSearchFirstName] = useState<string>('');
+  const [searchLastName, setSearchLastName] = useState<string>('');
 
   useEffect(() => {
     const loadEvent = async () => {
@@ -42,13 +44,42 @@ const SelfCheckIn: React.FC = () => {
 
   const handleSearch = () => {
 
-    const sanitizedQuery = searchQuery.replace(/[^a-zA-Z\s]/g, "").trim();
-    if (!sanitizedQuery) return;
+    // const sanitizedQuery = searchQuery.replace(/[^a-zA-Z\s]/g, "").trim();
+    // if (!sanitizedQuery) return;
 
-    const attendee = attendees.find(a => a.name.toLowerCase() === sanitizedQuery.toLowerCase());
+
+
+    // const attendee = attendees.find(a => a.name.toLowerCase() === sanitizedQuery.toLowerCase());
+
+  const sanitizedFirst = searchFirstName.replace(/[^a-zA-Z\s]/g, "").trim().toLowerCase();
+  const sanitizedLast = searchLastName.replace(/[^a-zA-Z\s]/g, "").trim().toLowerCase();
+  
+  if (!sanitizedFirst || !sanitizedLast) return;
+
+  const attendee = attendees.find(a => {
+    const [attendeeFirst, ...attendeeLastParts] = a.name.toLowerCase().split(" ");
+    const attendeeLast = attendeeLastParts.join(" "); // Handle multiple last names
+    return attendeeFirst === sanitizedFirst && attendeeLast === sanitizedLast;
+  });
+
+  if (attendee) {
+    attendee.name = capitalizeFirstLetter(attendee.name);
+  }
+
+ 
     setFilteredAttendee(attendee || null);
     setShowWarning(!attendee);
   };
+
+  
+
+  
+
+  const capitalizeFirstLetter = (name: string) => {
+    if (!name) return "";
+    return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+  };
+  
 
   const handleRegister = async () => {
     // ✅ Email Validation Regex
@@ -80,6 +111,8 @@ const SelfCheckIn: React.FC = () => {
       alert("Please select your marital status.");
       return;
     }
+
+
   
     // ✅ Save sanitized input in the database
     const { data, error } = await supabase.from("attendees").insert({
@@ -281,13 +314,32 @@ return (
     {!checkedIn ? (
       <>
         <div className={styles.searchSection}>
-          <input
+          {/* <input
             type="text"
             placeholder="Search Attendee by Name"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className={styles.input}
-          />
+          /> */}
+
+        <div className={styles.searchFields}>
+            <input
+              type="text"
+              placeholder="First Name"
+              value={searchFirstName}
+              onChange={(e) => setSearchFirstName(e.target.value)}
+              className={styles.input}
+            />
+            <input
+              type="text"
+              placeholder="Last Name"
+              value={searchLastName}
+              onChange={(e) => setSearchLastName(e.target.value)}
+              className={styles.input}
+            />
+          </div>
+
+
           <button onClick={handleSearch} className={styles.button}>Search</button>
         </div>
 
@@ -301,7 +353,13 @@ return (
         {filteredAttendee && (
           <div className={styles.attendeeFound}>
             <h3>Attendee Found</h3>
-            <p>{filteredAttendee.name} - {filteredAttendee.checked_in ? '✔ Checked In' : '❌ Not Checked In'}</p>
+            
+            {/* <p>{filteredAttendee.name} - {filteredAttendee.checked_in ? '✔ Checked In' : '❌ Not Checked In'}</p> */}
+            <p>
+              {capitalizeFirstLetter(filteredAttendee?.name)} - 
+              {filteredAttendee.checked_in ? '✔ Checked In' : '❌ Not Checked In'}
+            </p>
+
 
             {!filteredAttendee.checked_in && (
               <>
@@ -371,7 +429,10 @@ return (
       >
         <div className={`${styles.confirmation} ${styles.fadeIn}`}>
           <h2 className={styles.welcomeText}>
-            Welcome, {filteredAttendee?.name?.split(" ")[0] || "Guest"}!
+            
+            Welcome, {capitalizeFirstLetter(filteredAttendee?.name?.split(" ")[0] || "Guest")}!
+          
+
           </h2>
           <h3 className={`${styles.eventName}`}
           style={{ 
