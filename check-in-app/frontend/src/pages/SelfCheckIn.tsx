@@ -13,7 +13,8 @@ const SelfCheckIn: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [filteredAttendee, setFilteredAttendee] = useState<{ id: string; name: string; email?: string; status?: string; checked_in: boolean; check_in_time?: string; } | null>(null);
   //const [filteredAttendee, setFilteredAttendee] = useState<{ id: string; name: string; email: string; status?: string; checked_in: boolean } | null>(null);
-  const [newAttendee, setNewAttendee] = useState<{ name: string; email: string; status: string }>({ name: '', email: '', status: '' });
+  const [newAttendee, setNewAttendee] = useState<{ firstName: string; lastName: string; name: string; email: string; status: string }>({ firstName: '',
+    lastName: '', name: '', email: '', status: '' });
   const [checkedIn, setCheckedIn] = useState<boolean>(false);
   const [showWarning, setShowWarning] = useState<boolean>(false);
   const [selectedStatus, setSelectedStatus] = useState<string>('');
@@ -54,10 +55,19 @@ const SelfCheckIn: React.FC = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   
     // ✅ Trim spaces and remove special characters from the name
-    const sanitizedName = newAttendee.name.replace(/[^a-zA-Z\s]/g, "").trim();
+    //const sanitizedName = newAttendee.name.replace(/[^a-zA-Z\s]/g, "").trim();
+
+    const sanitizedFirstName = newAttendee.firstName.replace(/[^a-zA-Z\s]/g, "").trim();
+    const sanitizedLastName = newAttendee.lastName.replace(/[^a-zA-Z\s]/g, "").trim();
+    const fullName = `${sanitizedFirstName} ${sanitizedLastName}`.trim();
   
-    if (!sanitizedName) {
-      alert("Please enter a valid name with only letters.");
+    // if (!sanitizedName) {
+    //   alert("Please enter a valid name with only letters.");
+    //   return;
+    // }
+
+    if (!sanitizedFirstName || !sanitizedLastName) {
+      alert("Please enter both first and last names with only letters.");
       return;
     }
   
@@ -74,7 +84,8 @@ const SelfCheckIn: React.FC = () => {
     // ✅ Save sanitized input in the database
     const { data, error } = await supabase.from("attendees").insert({
       event_id: eventId,
-      name: sanitizedName, 
+      name: fullName,
+      //name: sanitizedName, 
       email: newAttendee.email.trim(),
       status: newAttendee.status,
       checked_in: false
@@ -315,7 +326,7 @@ return (
         {!filteredAttendee && (
           <div className={styles.registerSection}>
             <h3>Not Registered? Register Here</h3>
-            <input
+            {/* <input
               type="text"
               placeholder="Enter your name"
               value={newAttendee.name}
@@ -324,7 +335,11 @@ return (
                 setNewAttendee({ ...newAttendee, name: sanitizedValue.trimStart() });
               }}
               className={styles.input}
-            />
+            /> */}
+            <div className={styles.nameFields}>
+                <input type="text" placeholder="First Name" value={newAttendee.firstName} onChange={(e) => setNewAttendee({ ...newAttendee, firstName: e.target.value.replace(/[^a-zA-Z\s]/g, "").trimStart() })} className={styles.input} />
+                <input type="text" placeholder="Last Name" value={newAttendee.lastName} onChange={(e) => setNewAttendee({ ...newAttendee, lastName: e.target.value.replace(/[^a-zA-Z\s]/g, "").trimStart() })} className={styles.input} />
+              </div>
             <input
               type="email"
               placeholder="Enter Your Email"
@@ -362,7 +377,7 @@ return (
           style={{ 
             color: filteredAttendee?.status ===  "married" ? "black" : "white"
           }}
-          >_________________</h3>
+          >______________</h3>
           <p className={styles.eventText}>Checked In</p>
         </div>
       </div>

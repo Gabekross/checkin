@@ -218,6 +218,18 @@ label{
   color: white;
 }
 
+.nameFields {
+  display: flex;
+  gap: 10px;  /* Space between the two input fields */
+  justify-content: space-between; /* Ensure they are evenly spaced */
+}
+
+.nameFields .input {
+  flex: 1; /* Make each input take equal width */
+  min-width: 0; /* Prevent inputs from overflowing */
+}
+
+
 /* ✅ Responsive Design */
 @media (max-width: 768px) {
   .selfCheckIn {
