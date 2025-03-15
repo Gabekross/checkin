@@ -358,7 +358,11 @@ return (
           <h2 className={styles.welcomeText}>
             Welcome, {filteredAttendee?.name?.split(" ")[0] || "Guest"}!
           </h2>
-          <h3 className={styles.eventLine}>_________________</h3>
+          <h3 className={`${styles.eventName}`}
+          style={{ 
+            color: filteredAttendee?.status ===  "married" ? "black" : "white"
+          }}
+          >_________________</h3>
           <p className={styles.eventText}>Checked In</p>
         </div>
       </div>
