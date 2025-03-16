@@ -43,14 +43,6 @@ const SelfCheckIn: React.FC = () => {
   }, [eventId]);
 
   const handleSearch = () => {
-
-    // const sanitizedQuery = searchQuery.replace(/[^a-zA-Z\s]/g, "").trim();
-    // if (!sanitizedQuery) return;
-
-
-
-    // const attendee = attendees.find(a => a.name.toLowerCase() === sanitizedQuery.toLowerCase());
-
   const sanitizedFirst = searchFirstName.replace(/[^a-zA-Z\s]/g, "").trim().toLowerCase();
   const sanitizedLast = searchLastName.replace(/[^a-zA-Z\s]/g, "").trim().toLowerCase();
   
@@ -71,32 +63,21 @@ const SelfCheckIn: React.FC = () => {
     setShowWarning(!attendee);
   };
 
-  
-
-  
-
   const capitalizeFirstLetter = (name: string) => {
     if (!name) return "";
-    return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+    return name
+      .split(" ") // Split the name into words (handles cases like "john doe")
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()) // Capitalize each word
+      .join(" "); // Join them back into a string
   };
   
-
   const handleRegister = async () => {
     // ✅ Email Validation Regex
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  
-    // ✅ Trim spaces and remove special characters from the name
-    //const sanitizedName = newAttendee.name.replace(/[^a-zA-Z\s]/g, "").trim();
-
     const sanitizedFirstName = newAttendee.firstName.replace(/[^a-zA-Z\s]/g, "").trim();
     const sanitizedLastName = newAttendee.lastName.replace(/[^a-zA-Z\s]/g, "").trim();
     const fullName = `${sanitizedFirstName} ${sanitizedLastName}`.trim();
   
-    // if (!sanitizedName) {
-    //   alert("Please enter a valid name with only letters.");
-    //   return;
-    // }
-
     if (!sanitizedFirstName || !sanitizedLastName) {
       alert("Please enter both first and last names with only letters.");
       return;
@@ -111,14 +92,10 @@ const SelfCheckIn: React.FC = () => {
       alert("Please select your marital status.");
       return;
     }
-
-
-  
     // ✅ Save sanitized input in the database
     const { data, error } = await supabase.from("attendees").insert({
       event_id: eventId,
       name: fullName,
-      //name: sanitizedName, 
       email: newAttendee.email.trim(),
       status: newAttendee.status,
       checked_in: false
@@ -134,21 +111,17 @@ const SelfCheckIn: React.FC = () => {
     }
   };
   
-
   const checkInAttendee = async (attendeeId: string, status?: string) => {
     if (!status) {
       alert("Please select your marital status before checking in.");
       return;
     }
-
-    //const checkInTime = new Date().toISOString();
      // ✅ Get current local time and format it properly
     const localTime = new Date();
     const checkInTime = localTime.toLocaleString("en-US", { 
       timeZone: "America/New_York", // ✅ Change this to your actual timezone!
       hour12: false // ✅ Ensures 24-hour format (optional, set to true for AM/PM)
     });
-
 
     const { error } = await supabase.from('attendees').update({ checked_in: true, status,check_in_time: checkInTime }).eq('id', attendeeId);
     if (error) {
@@ -167,137 +140,6 @@ const SelfCheckIn: React.FC = () => {
     }
   };
 
-//   return (
-//     <div className={`${styles.selfCheckIn} ${checkedIn ? styles.checkedIn : ''}`} style={checkedIn ? { backgroundColor: 'green', color: 'white' } : {}}>
-//       {event && (
-//         <div className={styles.eventInfo}>
-//         {/* <h2>{event.name}</h2>
-//         <p>{event.date} - {event.location}</p> */}
-        
-//         {/* ✅ Display Event Image (Use Default if Missing) */}
-//         <img 
-//           src={event.image_url || '/default-event.jpg'} // Provide a default image path
-//           alt="Event"
-//           className={styles.eventImage}
-//         />
-//       </div>
-      
-// )}
-
-
-// {/* 
-//       {event && (
-//         <div className={styles.eventInfo}>
-//           <h2>{event.name}</h2>
-//           <p>{event.date} - {event.location}</p>
-//         </div>
-//       )} */}
-//       {!checkedIn ? (
-//         <>
-//           {/* <h2 className={styles.title}>Scan QR Code or Enter Your Name</h2>
-//           <QRScanner onScanSuccess={(scannedEventId) => navigate(`/self-check-in/${scannedEventId}`)} /> */}
-//           <div className={styles.searchSection}>
-//             <input
-//               type="text"
-//               placeholder="Search Attendee by Name"
-//               value={searchQuery}
-//               onChange={(e) => setSearchQuery(e.target.value)}
-//               className={styles.input}
-//             />
-//             <button onClick={handleSearch} className={styles.button}>Search</button>
-//           </div>
-
-//           {/* Warning message if attendee not found */}
-//           {showWarning && (
-//             <div className={styles.warningMessage}>
-//               <p>Attendee not found.. <br />Please register below.</p>
-//               <button className={styles.closeButton} onClick={() => setShowWarning(false)}>X</button>
-//             </div>
-//           )}
-
-//           {/* If attendee is found */}
-//           {filteredAttendee && (
-//             <div className={styles.attendeeFound}>
-//               <h3>Attendee Found</h3>
-//               <p>{filteredAttendee.name} - {filteredAttendee.checked_in ? '✔ Checked In' : '❌ Not Checked In'}</p>
-
-//               {!filteredAttendee.checked_in && (
-//                 <>
-//                   {filteredAttendee.status ? (
-//                     <button onClick={() => checkInAttendee(filteredAttendee.id, filteredAttendee.status)} className={styles.button}>Check In</button>
-//                   ) : (
-//                     <>
-//                       <label>Select Marital Status:</label>
-//                       <select onChange={(e) => setSelectedStatus(e.target.value)} className={styles.input}>
-//                         <option value="">-- Select --</option>
-//                         <option value="single">Single</option>
-//                         <option value="married">Married</option>
-//                       </select>
-//                       <button onClick={() => checkInAttendee(filteredAttendee.id, selectedStatus)} className={styles.button}>Submit & Check In</button>
-//                     </>
-//                   )}
-//                 </>
-//               )}
-//             </div>
-//           )}
-
-//           {/* Registration form for new attendees */}
-//           {!filteredAttendee && (
-//             <div className={styles.registerSection}>
-//               <h3>Not Registered? Register Here</h3>
-//               <input
-//                 type="text"
-//                 placeholder="Enter your name"
-//                 value={newAttendee.name}
-//                 onChange={(e) => {
-//                   const sanitizedValue = e.target.value.replace(/[^a-zA-Z\s]/g, "");
-//                   setNewAttendee({ ...newAttendee, name: sanitizedValue.trimStart() })}}
-//                 className={styles.input}
-//               />
-//               <input
-//                 type="email"
-//                 placeholder="Enter Your Email"
-//                 value={newAttendee.email}
-//                 onChange={(e) => setNewAttendee({ ...newAttendee, email: e.target.value.trim() })}
-//                 className={styles.input}
-//               />
-//               <label>Select Marital Status:</label>
-//               <select
-//                 value={newAttendee.status}
-//                 onChange={(e) => setNewAttendee({ ...newAttendee, status: e.target.value })}
-//                 className={styles.input}
-//               >
-//                 <option value="">-- Select --</option>
-//                 <option value="single">Single</option>
-//                 <option value="married">Married</option>
-//               </select>
-//               <button onClick={handleRegister} className={styles.button}>Register</button>
-//             </div>
-//           )}
-//         </>
-//       ) : (
-//         <div className={`${styles.checkedIn}`}
-
-//         style={{ 
-//           backgroundColor: filteredAttendee.status === "single" ? "green" : "yellow", 
-//           color: filteredAttendee.status === "single" ? "white" : "black" 
-//         }}
-
-        
-        
-//         >
-//             <div className={`${styles.confirmation} ${styles.fadeIn}`}>
-//                 <h2 className={styles.welcomeText}>Welcome, {filteredAttendee?.name?.split(" ")[0] || "Guest"}!</h2>
-//                 <h3 className={styles.eventName}>_________________</h3>
-//                 <p className={styles.eventText}>Checked In</p>
-               
-//             </div>
-//         </div>
-//       )}
-//     </div>
-//   );
-
-
 return (
   <div className={`${styles.selfCheckIn} ${checkedIn ? styles.checkedIn : ''}`}>
 
@@ -314,32 +156,22 @@ return (
     {!checkedIn ? (
       <>
         <div className={styles.searchSection}>
-          {/* <input
-            type="text"
-            placeholder="Search Attendee by Name"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className={styles.input}
-          /> */}
-
-        <div className={styles.searchFields}>
-            <input
-              type="text"
-              placeholder="First Name"
-              value={searchFirstName}
-              onChange={(e) => setSearchFirstName(e.target.value)}
-              className={styles.input}
-            />
-            <input
-              type="text"
-              placeholder="Last Name"
-              value={searchLastName}
-              onChange={(e) => setSearchLastName(e.target.value)}
-              className={styles.input}
-            />
-          </div>
-
-
+          <div className={styles.searchFields}>
+              <input
+                type="text"
+                placeholder="First Name"
+                value={searchFirstName}
+                onChange={(e) => setSearchFirstName(e.target.value)}
+                className={styles.input}
+              />
+              <input
+                type="text"
+                placeholder="Last Name"
+                value={searchLastName}
+                onChange={(e) => setSearchLastName(e.target.value)}
+                className={styles.input}
+              />
+            </div>
           <button onClick={handleSearch} className={styles.button}>Search</button>
         </div>
 
@@ -353,8 +185,6 @@ return (
         {filteredAttendee && (
           <div className={styles.attendeeFound}>
             <h3>Attendee Found</h3>
-            
-            {/* <p>{filteredAttendee.name} - {filteredAttendee.checked_in ? '✔ Checked In' : '❌ Not Checked In'}</p> */}
             <p>
               {capitalizeFirstLetter(filteredAttendee?.name)} - 
               {filteredAttendee.checked_in ? '✔ Checked In' : '❌ Not Checked In'}
@@ -384,16 +214,6 @@ return (
         {!filteredAttendee && (
           <div className={styles.registerSection}>
             <h3>Not Registered? Register Here</h3>
-            {/* <input
-              type="text"
-              placeholder="Enter your name"
-              value={newAttendee.name}
-              onChange={(e) => {
-                const sanitizedValue = e.target.value.replace(/[^a-zA-Z\s]/g, "");
-                setNewAttendee({ ...newAttendee, name: sanitizedValue.trimStart() });
-              }}
-              className={styles.input}
-            /> */}
             <div className={styles.nameFields}>
                 <input type="text" placeholder="First Name" value={newAttendee.firstName} onChange={(e) => setNewAttendee({ ...newAttendee, firstName: e.target.value.replace(/[^a-zA-Z\s]/g, "").trimStart() })} className={styles.input} />
                 <input type="text" placeholder="Last Name" value={newAttendee.lastName} onChange={(e) => setNewAttendee({ ...newAttendee, lastName: e.target.value.replace(/[^a-zA-Z\s]/g, "").trimStart() })} className={styles.input} />
@@ -445,8 +265,6 @@ return (
     )}
   </div>
 );
-
-
 };
 
 export default SelfCheckIn;
