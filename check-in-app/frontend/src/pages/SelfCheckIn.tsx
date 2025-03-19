@@ -257,10 +257,10 @@ return (
               className={`${styles.eventName}`}
               style={{ color: filteredAttendee?.status === "married" ? "black" : "white" }}
             >______________</h3>
-            <p className={styles.eventText}>Checked In</p>
+            <p className={styles.eventText} >Checked In</p>
           </div>
           {/* Move the instruction text below the fade-in box */}
-          <p className={styles.instructionText}>Show this screen to a staff to receive a bracelet</p>
+          <p className={`${styles.instructionText} ${styles.fadeIn}`}>Show this screen to a staff to receive a bracelet</p>
         </div>
       </div>
     )}
