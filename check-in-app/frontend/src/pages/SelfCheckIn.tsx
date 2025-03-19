@@ -247,22 +247,24 @@ return (
           color: filteredAttendee?.status ===  "married" ? "black" : "white"
         }}
       >
-        <div className={`${styles.confirmation} ${styles.fadeIn}`}>
-          <h2 className={styles.welcomeText}>
-            
-            Welcome, {capitalizeFirstLetter(filteredAttendee?.name?.split(" ")[0] || "Guest")}!
-          
-
-          </h2>
-          <h3 className={`${styles.eventName}`}
-          style={{ 
-            color: filteredAttendee?.status ===  "married" ? "black" : "white"
-          }}
-          >______________</h3>
-          <p className={styles.eventText}>Checked In</p>
+      {/* Wrapper to keep both elements aligned */}
+      <div className={styles.centeredContent}>
+          <div className={`${styles.confirmation} ${styles.fadeIn}`}>
+            <h2 className={styles.welcomeText}>
+              Welcome, {capitalizeFirstLetter(filteredAttendee?.name?.split(" ")[0] || "Guest")}!
+            </h2>
+            <h3 
+              className={`${styles.eventName}`}
+              style={{ color: filteredAttendee?.status === "married" ? "black" : "white" }}
+            >______________</h3>
+            <p className={styles.eventText}>Checked In</p>
+          </div>
+          {/* Move the instruction text below the fade-in box */}
+          <p className={styles.instructionText}>Show this screen to a staff to receive a bracelet</p>
         </div>
       </div>
     )}
+    
   </div>
 );
 };

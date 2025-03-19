@@ -2,8 +2,6 @@
   max-width: 450px;
   margin: 50px auto;
   padding: 20px;
-  //background: linear-gradient(135deg, #F0F4F8, #D9E2EC); //(Use for default)
-  //background: linear-gradient(135deg, #f8f0f0, #fcfcfb); //(use for custom)
   border-radius: 10px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
@@ -18,8 +16,6 @@
 
 /* ✅ Style for event info */
 .eventInfo {
-  //ackground: linear-gradient(135deg, #f8f6f0, #EDE7F6); //(Use for default)
-  //background: linear-gradient(135deg, #f8f0f0, #f4f2ec); ////(use for custom)
   padding: 5px;
   border-radius: 8px;
   margin-bottom: 20px;
@@ -58,7 +54,6 @@
 .button {
   width: 60%;
   background-color: #007bff;
-  //background-color:#887d5c;
   color: white;
   padding: 12px;
   font-size: 16px;
@@ -217,6 +212,19 @@ label{
   font-style: italic;
   color: white;
 }
+
+.centeredContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.instructionText {
+  margin-top: 16px; /* Space below fade-in box */
+  font-size: 16px;
+}
+
 
 .nameFields {
   display: flex;
